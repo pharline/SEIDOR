@@ -1,92 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="PT-BR">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://scarneiro.com.br/seidor/visual.css" />
+    <link rel="stylesheet" href="./visual.css" />
     <title>SharePoints</title>
   </head>
   <body>
-        <!-- Inicio -->
-        <div style="margin-right: 0px;"><iframe src="https://scarneiro.com.br/seidor/services.html" height="500px" width="100%" title="Iframe Example"></iframe></div>
-        <!-- Final -->
-
     <!-- Inicio -->
-    <section class="Div">
-      <div class="Header">
-        <button class="botao">
-          ACOMPANHAMENTO LISTA DE FATURAMENTO
-        </button>
+    <div style="margin-right: 0px">
+      <div class="NavBarContainer">
+        <nav class="navbar">
+          <button class="ButtonHome">Solicitação Serviço</button>
+          <button class="ButtonFaturamento">Faturamento</button>
+          <button class="ButtonReport">Status Report</button>
+          <button class="ButtonSMD">Acompanhamento de SMD</button>
+          <button class="ButtonChecklist">Acompanhamento de CheckList</button>
+        </nav>
       </div>
-      <div class="Main">
-        <iframe
-          class="frame"
-          src="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/Acompanhamento%20de%20Faturamento/AllItems.aspx?env=WebViewList&FilterField1=OI&FilterValue1=MDE001T&FilterType1=Text&viewid=02e40e29%2Df33c%2D4b5b%2Db579%2D9edd42c600d5"
-          width="100%"
-          title="Iframe Example"
-        ></iframe>
-      </div>
-    </section>
-    <div class="margin"></div>
-    <!-- Final -->
-
-    <!-- Inicio -->
-    <section class="DivAcomp">
-      <div class="HeaderAcomp">
-        <button class="botaoAcomp">
-          ACOMPANHAMENTO LISTA DE STATUS REPORT
-        </button>
-      </div>
-      <div class="MainAcomp">
-        <iframe
-          class="frameAcomp"
-          src="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/PMO%20%20Status%20Report/AllItems.aspx?env=Embedded&FilterField1=OI&FilterValue1=MDE001T&FilterType1=Text&viewid=3148f27a%2Dff7e%2D4497%2D8cd4%2D12d54620763b"
-          width="100%"
-          title="Iframe Example"
-        ></iframe>
-      </div>
-    </section>
-    <div class="margin"></div>
-    <!-- Final -->
-
-    <!-- Inicio -->
-    <section class="DivAcompSMD">
-      <div class="HeaderAcompSMD">
-        <button class="botaoAcompSMD">
-          ACOMPANHAMENTO LISTA DE SOLICITAÇÃO DE MUDANÇA
-        </button>
-      </div>
-      <div class="MainAcompSMD">
-        <iframe
-          class="frameAcompSMD"
-          src="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/SEIDOR_PORTFOLIO%20%20Acompanhamento%20Solicitao%20de%20Muda/AllItems.aspx?env=WebViewList&FilterField1=OIPROJETO&FilterValue1=MDE001T&FilterType1=Text&viewid=bf33d705%2Da959%2D421c%2Dbe2a%2D1641fffb1271"
-          width="100%"
-          title="Iframe Example"
-        ></iframe>
-      </div>
-    </section>
-    <div class="margin"></div>
-    <!-- Final -->
-
-        <!-- Inicio -->
-    <section class="DivAcompCLQ">
-      <div class="HeaderAcompCLQ">
-        <button class="botaoAcompCLQ">
-          ACOMPANHAMENTO CHECK LIST DE QUALIDADE
-        </button>
-      </div>
-      <div class="MainAcompCLQ">
-        <iframe
-          class="frameAcompCLQ"
-          src="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br-Produto/_layouts/15/Doc.aspx?sourcedoc={28ec9b06-b230-457f-a472-45dcc5181ffb}&action=embedview&AllowTyping=True&Item='CLQ_Checklist%20Qualidade'!A1%3AK200&wdHideGridlines=True&wdDownloadButton=True&wdInConfigurator=True&wdInConfigurator=True&edesNext=true&resen=false"
-          width="100%"
-          title="Iframe Example"
-        ></iframe>
-      </div>
-    </section>
-    <div class="margin"></div>
+      <iframe
+        class="Iframe"
+        src="https://scarneiro.com.br/seidor/services.html"
+        height="500px"
+        width="100%"
+        title="Iframe Example"
+      ></iframe>
+    </div>
     <!-- Final -->
   </body>
-  <script src="https://scarneiro.com.br/seidor/aplicacao.js"></script>
+  <option class="varHome" value="https://scarneiro.com.br/seidor/services.html"></option>
+  <option class="varFaturamento" value="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/Acompanhamento%20de%20Faturamento/AllItems.aspx?env=WebViewList&FilterField1=OI&FilterValue1=BEN022T&FilterType1=Text&viewid=02e40e29%2Df33c%2D4b5b%2Db579%2D9edd42c600d5"></option>
+  <option class="varStatusReport" value="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/PMO%20%20Status%20Report/Possibitar%20Cpia.aspx?FilterField1=OI&FilterValue1=BEN022T&FilterType1=Text&viewid=fdf0e89a%2D872a%2D4adb%2D9dfa%2D0cfc48bc813f"></option>
+  <option class="varAcompSMD" value="https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/SEIDOR_PORTFOLIO%20%20Acompanhamento%20Solicitao%20de%20Muda/AllItems.aspx?env=WebViewList&FilterField1=OIPROJETO&FilterValue1=BEN022T&FilterType1=Text&viewid=bf33d705%2Da959%2D421c%2Dbe2a%2D1641fffb1271"></option>
+  <option class="varAcompCheckList" value="https://seidor.sharepoint.com/sites/SeidorBR/AGRIVALLE_S4HANA-IMPLANTACAO/_layouts/15/Doc.aspx?sourcedoc={c42e97f5-14ef-41ef-a767-db1737dc4bab}&action=embedview&AllowTyping=True&Item='CLQ_Checklist%20Qualidade'!A1%3AK200&wdHideGridlines=True&wdDownloadButton=True&wdInConfigurator=True&wdInConfigurator=True&edesNext=true&resen=false"></option>
+  <script src="./aplicacao.js"></script>
 </html>

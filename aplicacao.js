@@ -1,106 +1,45 @@
-const botao = document.querySelector(".botao");
-const Main = document.querySelector(".Main");
-const Div = document.querySelector(".Div");
-const frame = document.querySelector(".frame");
+const btnSolicitacao = document.querySelector(".ButtonHome");
+const btnFaturamento = document.querySelector(".ButtonFaturamento");
+const btnStatusReport = document.querySelector(".ButtonReport");
+const btnAcompSMD = document.querySelector(".ButtonSMD");
+const btnAcompCheckList = document.querySelector(".ButtonChecklist");
 
-const botaoFAT = document.querySelector(".botaoFAT");
-const MainFAT = document.querySelector(".MainFAT");
-const DivFAT = document.querySelector(".DivFAT");
-const frameFAT = document.querySelector(".frameFAT");
+const varHome = document.querySelector(".varHome");
+const varFaturamento = document.querySelector(".varFaturamento");
+const varStatusReport = document.querySelector(".varStatusReport");
+const varAcompSMD = document.querySelector(".varAcompSMD");
+const varAcompCheckList = document.querySelector(".varAcompCheckList");
 
-const botaoSTR = document.querySelector(".botaoSTR");
-const MainSTR = document.querySelector(".MainSTR");
-const DivSTR = document.querySelector(".DivSTR");
-const frameSTR = document.querySelector(".frameSTR");
+const frame = document.querySelector(".Iframe");
 
-const botaoSMD = document.querySelector(".botaoSMD");
-const MainSMD = document.querySelector(".MainSMD");
-const DivSMD = document.querySelector(".DivSMD");
-const frameSMD = document.querySelector(".frameSMD");
-
-const botaoCLQ = document.querySelector(".botaoCLQ");
-const MainCLQ = document.querySelector(".MainCLQ");
-const DivCLQ = document.querySelector(".DivCLQ");
-const frameCLQ = document.querySelector(".frameCLQ");
-
-function minimizar() {
-  
+function botoesFrames() {
   //Inicio Botao//
-  botao.addEventListener("click", (e) => {
+  btnSolicitacao.addEventListener("click", (e) => {
     e.preventDefault();
-    if (Main.classList.contains("active") || Div.classList.contains("active")) {
-      Main.classList.remove("active");
-      Div.classList.remove("active");
-      frame.classList.remove("active");
-    } else {
-      Main.classList.add("active");
-      Div.classList.add("active");
-      frame.classList.add("active");
-    }
+    frame.src = varHome.value;
   });
-  //Final Bota//
 
-  //Inicio Botao//
-  botaoFAT.addEventListener("click", (e) => {
+  btnFaturamento.addEventListener("click", (e) => {
     e.preventDefault();
-    if (MainFAT.classList.contains("active") || Div.classList.contains("active")) {
-      MainFAT.classList.remove("active");
-      DivFAT.classList.remove("active");
-      frameFAT.classList.remove("active");
-    } else {
-      MainFAT.classList.add("active");
-      DivFAT.classList.add("active");
-      frameFAT.classList.add("active");
-    }
+    frame.src = varFaturamento.value;
   });
-  //Final Bota//  
 
-  //Inicio Botao//
-  botaoSTR.addEventListener("click", (e) => {
+  btnStatusReport.addEventListener("click", (e) => {
     e.preventDefault();
-    if (MainSTR.classList.contains("active") || Div.classList.contains("active")) {
-      MainSTR.classList.remove("active");
-      DivSTR.classList.remove("active");
-      frameSTR.classList.remove("active");
-    } else {
-      MainSTR.classList.add("active");
-      DivSTR.classList.add("active");
-      frameSTR.classList.add("active");
-    }
+    frame.src = varStatusReport.value;
   });
-  //Final Bota// 
 
-  //Inicio Botao//
-  botaoSMD.addEventListener("click", (e) => {
+  btnAcompSMD.addEventListener("click", (e) => {
     e.preventDefault();
-    if (MainSMD.classList.contains("active") || Div.classList.contains("active")) {
-      MainSMD.classList.remove("active");
-      DivSMD.classList.remove("active");
-      frameSMD.classList.remove("active");
-    } else {
-      MainSMD.classList.add("active");
-      DivSMD.classList.add("active");
-      frameSMD.classList.add("active");
-    }
+    frame.src = varAcompSMD.value;
   });
-  //Final Bota//  
 
-  //Inicio Botao//
-  botaoCLQ.addEventListener("click", (e) => {
+  btnAcompCheckList.addEventListener("click", (e) => {
     e.preventDefault();
-    if (MainCLQ.classList.contains("active") || Div.classList.contains("active")) {
-      MainCLQ.classList.remove("active");
-      DivCLQ.classList.remove("active");
-      frameCLQ.classList.remove("active");
-    } else {
-      MainCLQ.classList.add("active");
-      DivCLQ.classList.add("active");
-      frameCLQ.classList.add("active");
-    }
+    frame.src = varAcompCheckList.value;
   });
-  //Final Bota//   
 }
 
 //Não Apagar//
-minimizar();
+botoesFrames();
 //Não Apagar//
