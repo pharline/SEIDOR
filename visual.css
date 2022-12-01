@@ -1,0 +1,286 @@
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  outline: none;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  width: 100%;
+}
+
+.margin {
+  content: "";
+  width: 100%;
+  height: 5px;
+  background-color: #ffffff;
+}
+
+/* Inicio */
+.Div {
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 10;
+  display: hidden;
+  transition: 0.5s;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.Div.active {
+  width: 100%;
+  height: 600px;
+}
+
+.Header {
+  width: 100%;
+  height: 100px;
+  background-color: #252680;
+  color: #ffffff00;
+  text-align: center;
+}
+
+.Main {
+  height: 0%;
+  display: none;
+  background-color: #252680;
+  transition: 0.5s;
+  padding: 15px;
+}
+
+.Main.active {
+  display: flex;
+  height: 90%;
+  background-color: #252680;
+}
+
+.frame {
+  height: 0%;
+}
+
+.frame.active {
+  height: 90%;
+}
+button {
+  width: 95%;
+  height: 100%;
+  background-color: #252680;
+  color: #ffffff;
+  border: none;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  color: #ffd0006c;
+}
+
+/* Final */
+
+/* Inicio */
+.DivFAT {
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 10;
+  display: hidden;
+  transition: 0.5s;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.DivFAT.active {
+  width: 100%;
+  height: 600px;
+}
+
+.HeaderFAT {
+  width: 100%;
+  height: 100px;
+  background-color: #252680;
+  color: #ffffff00;
+  text-align: center;
+}
+
+.MainFAT {
+  height: 0%;
+  display: none;
+  background-color: #252680;
+  transition: 0.5s;
+  padding: 15px;
+}
+
+.MainFAT.active {
+  display: flex;
+  height: 90%;
+  background-color: #252680;
+}
+
+.frameFAT {
+  height: 0%;
+}
+
+.frameFAT.active {
+  height: 90%;
+}
+/* Final */
+
+/* Inicio */
+.DivSTR {
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 10;
+  display: hidden;
+  transition: 0.5s;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.DivSTR.active {
+  width: 100%;
+  height: 600px;
+}
+
+.HeaderSTR {
+  width: 100%;
+  height: 100px;
+  background-color: #252680;
+  color: #ffffff00;
+  text-align: center;
+}
+
+.MainSTR {
+  height: 0%;
+  display: none;
+  background-color: #252680;
+  transition: 0.5s;
+  padding: 15px;
+}
+
+.MainSTR.active {
+  display: flex;
+  height: 90%;
+  background-color: #252680;
+}
+
+.frameSTR {
+  height: 0%;
+}
+
+.frameSTR.active {
+  height: 90%;
+}
+/* Final */
+
+/* Inicio */
+.DivSMD {
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 10;
+  display: hidden;
+  transition: 0.5s;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.DivSMD.active {
+  width: 100%;
+  height: 600px;
+}
+
+.HeaderSMD {
+  width: 100%;
+  height: 100px;
+  background-color: #252680;
+  color: #ffffff00;
+  text-align: center;
+}
+
+.MainSMD {
+  height: 0%;
+  display: none;
+  background-color: #252680;
+  transition: 0.5s;
+  padding: 15px;
+}
+
+.MainSMD.active {
+  display: flex;
+  height: 90%;
+  background-color: #252680;
+}
+
+.frameSMD {
+  height: 0%;
+}
+
+.frameSMD.active {
+  height: 90%;
+}
+/* Final */
+
+/* Inicio */
+.DivCLQ {
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 10;
+  display: hidden;
+  transition: 0.5s;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.DivCLQ.active {
+  width: 100%;
+  height: 600px;
+}
+
+.HeaderCLQ {
+  width: 100%;
+  height: 100px;
+  background-color: #252680;
+  color: #ffffff00;
+  text-align: center;
+}
+
+.MainCLQ {
+  height: 0%;
+  display: none;
+  background-color: #252680;
+  transition: 0.5s;
+  padding: 15px;
+}
+
+.MainCLQ.active {
+  display: flex;
+  height: 90%;
+  background-color: #252680;
+}
+
+.frameCLQ {
+  height: 0%;
+}
+
+.frameCLQ.active {
+  height: 90%;
+}
+/* Final */
