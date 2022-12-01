@@ -64,14 +64,6 @@ body {
   background-color: #252680;
 }
 
-.frame {
-  height: 0%;
-}
-
-.frame.active {
-  height: 90%;
-}
-
 .NavBarContainer {
   width: 100vw;
   padding: 10px;
@@ -104,6 +96,11 @@ button {
 button:hover {
   background-color: #6c757d;
   color: #000000;
+}
+
+.Iframe {
+  width: 100vw;
+  height: 100vh;
 }
 
 /* .varHome{
