@@ -107,6 +107,20 @@ button:hover {
     width: 1440px;
     height: 600px;
   }
+  .NavBarContainer {
+    width: 1440px;
+    padding: 10px;
+    background-color: #252680;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* .varHome{
