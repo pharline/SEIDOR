@@ -81,23 +81,29 @@ body {
 }
 
 button {
-  width: 300px;
-  height: 60px;
-  background-color: #252680;
+  width: 200px;
+  height: 50px;
+  background-color: #5c5ed8;
   color: #ffffff;
-  border: solid 1px #6c757d;
-  border-radius: 5px;
+  border: solid 2px #6c757d;
+  border-radius: 7px;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   margin: 0px 5px; /* Sentido Horario: Cima Direita Baixo Esquerda */
+}
+
+button:focus {
+  background-color: #6c757d;
+  color: #000000;
 }
 
 button:hover {
   background-color: #6c757d;
   color: #000000;
 }
+
 
 .Iframe {
   width: 1650px;
