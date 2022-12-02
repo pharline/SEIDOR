@@ -83,7 +83,7 @@ body {
 button {
   width: 200px;
   height: 50px;
-  background-color: #15177c;
+  background-color: #090b94;
   color: #ffffff;
   border: solid 2px #6c757d;
   border-radius: 7px;
@@ -100,7 +100,7 @@ button:focus {
 }
 
 button:hover {
-  background-color: #6c757d;
+  background-color: #252680;
   color: #000000;
 }
 
