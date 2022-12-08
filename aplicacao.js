@@ -16,7 +16,7 @@ const varAcompCheckList = document.querySelector(".varAcompCheckList");
 document.getElementById("BotaoSolicitacao").innerHTML = "<p>Serviços</p>";
 document.getElementById("BotaoFaturamento").innerHTML = "<p>Faturamento</p>";
 document.getElementById("BotaoStatusReport").innerHTML = "<p>Status Report</p>";
-document.getElementById("BotaoSMD").innerHTML = "<p>SMD</p>";
+document.getElementById("BotaoSMD").innerHTML = "<p>FLUXO SMD</p>";
 document.getElementById("BotaoCheckList").innerHTML = "<p>CheckList de Qualidade</p>";
 
 const frame = document.querySelector(".Iframe");
