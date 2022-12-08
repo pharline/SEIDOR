@@ -111,28 +111,6 @@ button:hover {
   width: 100%;
   height: 600px;
 }
-@media (max-width: 1366px){
-  .Iframe {
-    display: flex;
-    width: 100%;
-    height: 500px;
-  }
-  .NavBarContainer {
-    display: flex;
-    width: 100%;
-    padding: 5px;
-    background-color: #252680;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .navbar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
 
 /* .varHome{
   display: hidden;
