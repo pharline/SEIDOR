@@ -13,11 +13,6 @@ const varAcompSMD = document.querySelector(".varAcompSMD");
 const varAcompSMD2 = `https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/SEIDOR_PORTFOLIO%20%20Acompanhamento%20Solicitao%20de%20Muda/AllItems.aspx?env=WebViewList&FilterField1=OIPROJETO&FilterValue1=${varAcompSMD.value}&FilterType1=Text&viewid=bf33d705%2Da959%2D421c%2Dbe2a%2D1641fffb1271`;
 const varAcompCheckList = document.querySelector(".varAcompCheckList");
 
-document.getElementById("BotaoSolicitacao").innerHTML = "<p>Serviços</p>";
-document.getElementById("BotaoFaturamento").innerHTML = "<p>Faturamento</p>";
-document.getElementById("BotaoStatusReport").innerHTML = "<p>Status Report</p>";
-document.getElementById("BotaoSMD").innerHTML = "<p>SMD</p>";
-document.getElementById("BotaoCheckList").innerHTML = "<p>CheckList de Qualidade</p>";
 
 const frame = document.querySelector(".Iframe");
 
