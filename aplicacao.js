@@ -3,7 +3,7 @@ const btnFaturamento = document.querySelector(".ButtonFaturamento");
 const btnStatusReport = document.querySelector(".ButtonReport");
 const btnAcompSMD = document.querySelector(".ButtonSMD");
 const btnAcompCheckList = document.querySelector(".ButtonChecklist");
-const btnConsultasRelatorio = document.querySelector(".ConsultasRelatorio");
+const btnConsultasRelatorio = document.querySelector(".ButtonConsultasRelatorio");
 
 const varHome = document.querySelector(".varHome");
 const varFaturamento = document.querySelector(".varFaturamento");
