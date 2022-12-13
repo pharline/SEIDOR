@@ -3,6 +3,7 @@ const btnFaturamento = document.querySelector(".ButtonFaturamento");
 const btnStatusReport = document.querySelector(".ButtonReport");
 const btnAcompSMD = document.querySelector(".ButtonSMD");
 const btnAcompCheckList = document.querySelector(".ButtonChecklist");
+const btnConsultasRelatorios = document.querySelector(".ButtonChecklist");
 
 const varHome = document.querySelector(".varHome");
 const varFaturamento = document.querySelector(".varFaturamento");
@@ -12,6 +13,9 @@ const varStatusReport2 = `https://seidor.sharepoint.com/teams/SeidorEscritoriode
 const varAcompSMD = document.querySelector(".varAcompSMD");
 const varAcompSMD2 = `https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/SEIDOR_PORTFOLIO%20%20Acompanhamento%20Solicitao%20de%20Muda/AllItems.aspx?env=WebViewList&FilterField1=OIPROJETO&FilterValue1=${varAcompSMD.value}&FilterType1=Text&viewid=bf33d705%2Da959%2D421c%2Dbe2a%2D1641fffb1271`;
 const varAcompCheckList = document.querySelector(".varAcompCheckList");
+const varConsultasRelatorios = `https://app.powerbi.com/reportEmbed?reportId=e42513bb-ec48-4b4f-b6ce-dc9baa0ad689&autoAuth=true&ctid=ef1e1b47-7370-4356-94d6-cae8187dc274&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWJyYXppbC1zb3V0aC1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D`;
+
+
 
 
 const frame = document.querySelector(".Iframe");
@@ -39,6 +43,11 @@ function botoesFrames() {
   });
 
   btnAcompCheckList.addEventListener("click", (e) => {
+    e.preventDefault();
+    frame.src = varAcompCheckList.value;
+  });
+
+  btnConsultasRelatorios.addEventListener("click", (e) => {
     e.preventDefault();
     frame.src = varAcompCheckList.value;
   });
