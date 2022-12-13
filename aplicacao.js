@@ -3,7 +3,7 @@ const btnFaturamento = document.querySelector(".ButtonFaturamento");
 const btnStatusReport = document.querySelector(".ButtonReport");
 const btnAcompSMD = document.querySelector(".ButtonSMD");
 const btnAcompCheckList = document.querySelector(".ButtonChecklist");
-const btnConsultasRelatorios = document.querySelector(".ConsultasRelatorios");
+const btnConsultasRelatorio = document.querySelector(".ConsultasRelatorio");
 
 const varHome = document.querySelector(".varHome");
 const varFaturamento = document.querySelector(".varFaturamento");
@@ -13,9 +13,7 @@ const varStatusReport2 = `https://seidor.sharepoint.com/teams/SeidorEscritoriode
 const varAcompSMD = document.querySelector(".varAcompSMD");
 const varAcompSMD2 = `https://seidor.sharepoint.com/teams/SeidorEscritoriodeProjetos-Brasil.br/Lists/SEIDOR_PORTFOLIO%20%20Acompanhamento%20Solicitao%20de%20Muda/AllItems.aspx?env=WebViewList&FilterField1=OIPROJETO&FilterValue1=${varAcompSMD.value}&FilterType1=Text&viewid=bf33d705%2Da959%2D421c%2Dbe2a%2D1641fffb1271`;
 const varAcompCheckList = document.querySelector(".varAcompCheckList");
-const varConsultasRelatorios = document.querySelector(".varConsultasRelatorios");
-const varConsultasRelatorios2 = `${varConsultasRelatorios.value}`;
-
+const varConsultasRelatorio = document.querySelector(".varConsultasRelatorio");
 
 
 
@@ -48,9 +46,9 @@ function botoesFrames() {
     frame.src = varAcompCheckList.value;
   });
 
-  btnConsultasRelatorios.addEventListener("click", (e) => {
+  btnConsultasRelatorio.addEventListener("click", (e) => {
     e.preventDefault();
-    frame.src = varConsultasRelatorios.value;
+    frame.src = varConsultasRelatorio.value;
   });
 }
 
