@@ -46,7 +46,7 @@
   .Header {
     width: 100%;
     height: 100px;
-    background-color: #1e0380e1;
+    background-color: #444791;
     color: #ffffff00;
     text-align: center;
   }
@@ -54,7 +54,7 @@
   .Main {
     height: 0%;
     display: none;
-    background-color: #1e0380e1;
+    background-color: #444791;
     transition: 0.5s;
     padding: 15px;
   }
@@ -62,14 +62,14 @@
   .Main.active {
     display: flex;
     height: 100%;
-    background-color: #1e0380e1;
+    background-color: #444791;
   }
   
   .NavBarContainer {
     width: 100%;
     display: flex;
     padding: 5px;
-    background-color: #1e0380e1;
+    background-color: #444791;
     align-items: center;
     justify-content: center;
   }
@@ -84,7 +84,7 @@
   button {
     width: 200px;
     height: 50px;
-    background-color: #1a1a85;
+    background-color: #32358d;
     color: #ffffff;
     border: solid 2px #5f7385;
     border-radius: 10px;
