@@ -15,7 +15,7 @@ const varStatusReport = `https://seidor.sharepoint.com/sites/SeidorBR/projetos/L
 const varAcompSMD = `https://seidor.sharepoint.com/sites/SeidorBR/projetos/Lists/PMO%20%20Solicitao%20de%20Mudana%20%20SMD/AllItems.aspx?origin=createList&useFiltersInViewXml=1&FilterField1=OIPROJETO&FilterValue1=${varOIPROJETO.value}&FilterType1=Text&viewid=35e8f5f6%2Ddb2e%2D413b%2Dbe14%2D5739bd2ac755`;
 const varAcompCheckList2 = `https://seidor.sharepoint.com/:x:/r/sites/SeidorBR/${varAcompCheckList.value}/Documentos/50%20-%20Qualidade/${varAcompCheckList.value}_CLQ%20-%20Checklist%20Qualidade.xlsx?d=&csf=1&web=1`;
 const varLicaoAprendidas2 = `https://seidor.sharepoint.com/sites/SeidorBR/projetos/Lists/PMO%20%20Lies%20Aprendidas/AllItems.aspx?origin=createList&FilterField1=OI&FilterValue1=${varOIPROJETO.value}&FilterType1=Text&viewid=1d40c97f%2Dd4bc%2D4cf8%2D9fe5%2D8c433890cebe`;
-const varConsultasRelatorio2 = `${varConsultasRelatorio.value}`;
+const varConsultasRelatorio2 = `https://seidor.sharepoint.com/sites/SeidorBR/Projects.aspx`;
 
 
 const frame = document.querySelector(".Iframe");
@@ -52,9 +52,8 @@ function botoesFrames() {
     frame.src = varLicaoAprendidas2;
   });
 
-  btnConsultasRelatorio.addEventListener("click", (e) => {
-    e.preventDefault();
-    frame.src = varConsultasRelatorio2;
+  btnConsultasRelatorio.addEventListener("click", function() {
+    window.open(varConsultasRelatorio2);
   });
 }
 
