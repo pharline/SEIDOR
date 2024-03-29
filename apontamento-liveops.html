@@ -44,7 +44,7 @@
     .login-container h3 {
       text-align: center;
       margin-bottom: 16px;
-      color: #333;
+      color: #ff0000;
     }
   
     .form-group {
@@ -94,6 +94,22 @@
     .register a:hover {
       color: #6a6fe9;
     }
+
+    #loading-animation {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+        display: none; /* Inicialmente oculto */
+        margin: auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
   </style>
 <script>
     function handleFormSubmit(event) {
@@ -101,9 +117,9 @@
   
       // Oculta o formulário e mostra a mensagem "Enviando..." imediatamente
       document.getElementById('login-form').style.display = 'none';
-      const messageContainer = document.getElementById('message-container');
+      const messageContainer = document.getElementById('loading-animation');
       const errorMessageContainer = document.getElementById('error-message'); // Referência ao contêiner de mensagem de erro
-      messageContainer.textContent = 'Enviando Aguarde...';
+      messageContainer.textContent = '';
       messageContainer.style.display = 'block';
       errorMessageContainer.style.display = 'none'; // Inicialmente oculta a mensagem de erro
   
@@ -194,6 +210,9 @@
       <button type="submit">REGISTRAR APONTAMENTOS</button>
       <h3><div id="error-message" class="error-message"></div></h3>
     </form>
+    <div id="loading-animation"></div> <!-- Elemento da animação de carregamento -->
+    <h3><div id="error-message" class="error-message"></div></h3>
+    <h3><div id="message-container" class="message-container"></div></h3>
     <h3><div id="message-container" class="message-container"></div></h3>
   </div>
   
