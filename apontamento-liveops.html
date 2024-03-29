@@ -134,6 +134,10 @@
           throw new Error('Usuário ou senha inválida');
         } else if (response.status === 401) {
           throw new Error('Chamado não encontrado');
+        } else if (response.status === 404) {
+          throw new Error('Colaborador não associado');
+        } else if (response.status === 405) {
+          throw new Error('Saldo de horas Insuficiente');             
         } else {
           // Para outros códigos de status, lança um erro genérico
           throw new Error('Erro ao processar a solicitação');
