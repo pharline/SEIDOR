@@ -135,7 +135,7 @@
         } else if (response.status === 401) {
           throw new Error('Chamado não encontrado');
         } else if (response.status === 404) {
-          throw new Error('Colaborador não associado');
+          throw new Error('Colaborador não associado no Chamado');
         } else if (response.status === 405) {
           throw new Error('Saldo de horas Insuficiente');             
         } else {
