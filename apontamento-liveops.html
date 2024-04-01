@@ -44,6 +44,7 @@
     .login-container h3 {
       text-align: center;
       margin-bottom: 16px;
+      font-weight: 400;
       color: #ff0000;
     }
   
@@ -115,10 +116,19 @@
     #sucesso{
       display: none;
       text-align: center;
-      color: white;
+      color: green;
       font-weight: 600;
       font-size: 18px;
     }
+
+    #errordate{
+      display: block;
+      text-align: center;
+      color: #ff0000;
+      font-weight: 400;
+      font-size: 18px;
+    }
+    
   </style>
 <script>
     function handleFormSubmit(event) {
@@ -126,62 +136,76 @@
   
       // Oculta o formulário e mostra o loading
       document.getElementById('login-form').style.display = 'none';
-      const messageContainer = document.getElementById('loading-animation');
+      const loadingAnimation = document.getElementById('loading-animation');
       const errorMessageContainer = document.getElementById('error-message');
       const message = document.getElementById('sucesso') // Referência ao contêiner de mensagem de erro
-      messageContainer.textContent = '';
-      messageContainer.style.display = 'block';
+      loadingAnimation.style.display = 'block';
       errorMessageContainer.style.display = 'none'; // Inicialmente oculta a mensagem de erro
   
-      const formData = new FormData(event.target);
-      const dataIntervalo = formData.get('dataIntervalo').split(' to '); // Supondo que o separador seja ' to '
-      const dataInicio = dataIntervalo[0];
-      const dataFim = dataIntervalo.length > 1 ? dataIntervalo[1] : ''; // Evita erro se o array tiver apenas um elemento
-      const data = {
-              username: formData.get('username'),
-              password: formData.get('password'),
-              chamado: formData.get('chamado'),
-              dataInicio: dataInicio,
-              dataFim: dataFim
-            };
-  
-      fetch(event.target.action, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => {
-        // Trata a resposta com base no código de status
-        if (response.status === 200) {
-          message.textContent = 'Solicitação enviada';
-          message.style.display = 'block'
-          messageContainer.style.display = 'none';
-        } else if (response.status === 400) {
-          throw new Error('Usuário ou senha inválida');
-        } else if (response.status === 401) {
-          throw new Error('Chamado não encontrado');
-        } else if (response.status === 404) {
-          throw new Error('Colaborador não associado no Chamado');
-        } else if (response.status === 405) {
-          throw new Error('Saldo de horas Insuficiente');             
-        } else {
-          // Para outros códigos de status, lança um erro genérico
-          throw new Error('Erro ao processar a solicitação');
-        }
-        return response.json(); // Processa a resposta se necessário
-      })
-      .catch(error => {
-        console.error('Falha na solicitação:', error);
-        // Exibe a mensagem de erro adequada
-        errorMessageContainer.textContent = error.message;
-        errorMessageContainer.style.display = 'block';
-        // Oculta a mensagem "Enviando..."
-        messageContainer.style.display = 'none';
-        // Mostra o formulário novamente em caso de erro
-        document.getElementById('login-form').style.display = 'block';
-      });
+      const dataIntervaloValue = document.getElementById('dataIntervalo').value;
+      const errorMessageDiv = document.getElementById('error-message');
+      const errordate = document.getElementById('errordate');
+      console.log('valordata: ', dataIntervaloValue.value)
+      
+      if (dataIntervaloValue === '') {
+        loadingAnimation.style.display = 'none';
+        document.getElementById('login-form').style.display = 'block'; // Mostra o formulário novamente
+        errordate.innerHTML = 'Selecione as Data!';
+        return; // Encerra a função aqui para não prosseguir com a submissão
+      }
+      else{
+        errordate.innerHTML = '';
+
+        const formData = new FormData(event.target);
+        const dataIntervalo = formData.get('dataIntervalo').split(' to '); // Supondo que o separador seja ' to '
+        const dataInicio = dataIntervalo[0];
+        const dataFim = dataIntervalo.length > 1 ? dataIntervalo[1] : ''; // Evita erro se o array tiver apenas um elemento
+        const data = {
+                username: formData.get('username'),
+                password: formData.get('password'),
+                chamado: formData.get('chamado'),
+                dataInicio: dataInicio,
+                dataFim: dataFim
+              };
+
+        fetch(event.target.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => {
+          // Trata a resposta com base no código de status
+          if (response.status === 200) {
+            message.textContent = 'Solicitação enviada';
+            message.style.display = 'block'
+            loadingAnimation.style.display = 'none';
+          } else if (response.status === 400) {
+            throw new Error('Usuário ou senha inválida');
+          } else if (response.status === 401) {
+            throw new Error('Chamado não encontrado');
+          } else if (response.status === 404) {
+            throw new Error('Colaborador não associado no Chamado');
+          } else if (response.status === 405) {
+            throw new Error('Saldo de horas Insuficiente');             
+          } else {
+            // Para outros códigos de status, lança um erro genérico
+            throw new Error('Erro ao processar a solicitação');
+          }
+          return response.json(); // Processa a resposta se necessário
+        })
+        .catch(error => {
+          console.error('Falha na solicitação:', error);
+          // Exibe a mensagem de erro adequada
+          errorMessageContainer.textContent = error.message;
+          errorMessageContainer.style.display = 'block';
+          // Oculta a mensagem "Enviando..."
+          loadingAnimation.style.display = 'none';
+          // Mostra o formulário novamente em caso de erro
+          document.getElementById('login-form').style.display = 'block';
+        });
+    }
     }
 </script>
   </head>
@@ -189,7 +213,9 @@
   
   <div class="login-container">
     <h2>Apontamentos Chamado LiveOps</h2>
-    <form id="login-form" action="https://prod-117.westeurope.logic.azure.com:443/workflows/0d6e2e6189b34783afe636d75a31136d/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=mMn0KP4_Tmz0sHVwy7c_hb5ucyv8LRdy_hChtGRM7KQ" method="post" onsubmit="handleFormSubmit(event)">
+    <form id="login-form" action="https://prod-117.westeurope.logic.azure.com:443/workflows/0d6e2e6189b34783afe636d75a31136d/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=mMn0KP4_Tmz0sHVwy7c_hb5ucyv8LRdy_hChtGRM7KQ" 
+      method="post" onsubmit="handleFormSubmit(event)"
+    >
       <div class="form-group">
         <input type="text" placeholder="E-mail do usuário LiveOps" name="username" required>
       </div>
@@ -201,8 +227,7 @@
       </div>
       
       <div class="form-group">
-        <label for="dataIntervalo">Selecione o Intervalo dos Apontamentos:</label>
-        <input type="text" id="dataIntervalo" name="dataIntervalo" required>
+        <input type="text" id="dataIntervalo" placeholder= 'Selecione o Intervalo dos Apontamentos' name="dataIntervalo" required>
       </div>
       <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -211,22 +236,25 @@
       document.addEventListener('DOMContentLoaded', function() {
         flatpickr("#dataIntervalo", {
           mode: "range",
-          dateFormat: "Y-m-d", required,
+          dateFormat: "Y-m-d",
           onOpen: function(selectedDates, dateStr, instance) {
           },
           onClose: function(selectedDates, dateStr, instance) {
           }
         });
       });
+   
       </script>              
       <button type="submit">REGISTRAR APONTAMENTOS</button>
       <h3><div id="error-message" class="error-message"></div></h3>
+      <p id="errordate"></p>
     </form>
     <div id="loading-animation"></div>
     <p id='sucesso'>Solicitação Enviada com Sucesso! <br> </p>
     <h3><div id="error-message" class="error-message"></div></h3>
     <h3><div id="message-container" class="message-container"></div></h3>
     <h3><div id="message-container" class="message-container"></div></h3>
-  </div>  
+  </div>
+  
   </body>
 </html>
