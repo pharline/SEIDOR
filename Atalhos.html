@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Controle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f7fc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #2d3748;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header .logo img {
+      width: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #4a5568;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .grid-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .grid-item {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: center;
+    }
+
+    .grid-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .grid-item h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .grid-item ul {
+      list-style: none;
+    }
+
+    .grid-item ul li {
+      margin: 15px 0;
+    }
+
+    .grid-item ul li a {
+      color: #3182ce;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      display: inline-block;
+      padding: 2px 2px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .grid-item ul li a:hover {
+      background-color: #2d3748;
+      color: #ffffff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2d3748;
+      color: #fff;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://seidorpmo.com.br/logoseidor_b.png" alt="Logo" style="width: 150px; height: auto;">
+    </div>    
+    <nav>
+      <ul>
+        <li><a href="https://outbound.com.br/" target="_blank">Outbound</a></li>
+        <li><a href="https://seidor.sharepoint.com/sites/SeidorBR/projetos" target="_blank">App Projetos</a></li>
+        <li><a href="https://seidor.sharepoint.com/sites/SeidorBR/Documentos/Forms/AllItems.aspx" target="_blank">Doc Projetos</a></li>
+        <li><a href="https://secure.d4sign.com.br/desk/cofres/467293/2c4885d7-b0d2-4540-abaf-d2947af1ad22.html" target="_blank">D4Sign</a></li>
+        <li><a href="https://github.com/pharline/SEIDOR" target="_blank">GitHub</a></li>
+        <li><a href="https://seidor.sharepoint.com/sites/SeidorBR/Projects.aspx" target="_blank">PWA</a></li>
+        <li><a href="https://portal.orbitspot.com/servicesmfe/service-contracts/contract-list" target="_blank">TimeFlow</a></li>
+        <li><a href="https://mg-manhuacu-pm-nfs.cloud.el.com.br/paginas/nfe/form/formNfeNotasFiscais.jsf" target="_blank">NFS-e Manhuaçu</a></li>
+      </ul>      
+    </nav>
+  </header>
+
+  <main>
+    <section class="grid-container">
+      <div class="grid-item">
+        <h2>Seidor</h2>
+        <ul>
+          <li><a href="https://seidorpmo.com.br/apontamento-liveops.html" target="_blank">Apontamento LiveOps</a></li>
+          <li><a href="https://clarity.microsoft.com/projects/view/nmou85iq4g/dashboard?date=Custom&end=1726541940000&start=1704078000000&URL=2%3B2%3Boutbound" target="_blank">Clarity</a></li>
+          <li><a href="https://oobj.com.br/bc/" target="_blank">Conhecimento - Oobj</a></li>
+          <li><a href="https://seidor.sharepoint.com/:x:/r/teams/Seidor4TaxCloudBrasil/Documentos%20compartidos/Product%20Outbound/Documenta%C3%A7%C3%A3o/Escala%20Outbound%20Sustenta%C3%A7%C3%A3o%20Feriados%20-%20Plant%C3%A3o.xlsx?d=w481949f4b53a4edaab19bb9faba68a5f&csf=1&web=1&e=6fm00G" target="_blank">Escala OutBound</a></li>
+          <li><a href="https://developer.microsoft.com/en-us/graph/graph-explorer" target="_blank">Graph Explorer</a></li>
+          <li><a href="https://www.solvor.com.br/support/consult" target="_blank">Solvor</a></li>
+          <li><a href="https://seidor-my.sharepoint.com/personal/aoliveira2_seidor_es/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Faoliveira2_seidor_es%2FDocuments%2FBlocos de Anotações&view=0" target="_blank">Token Acessos</a></li>
+          <li><a href="https://app.powerbi.com/groups/me/reports/c9c265ea-992d-4f3b-ac62-a7279b2664d0/353dabe0b1d37e84d8cb?ctid=654623d6-1504-4f22-a146-b7c72637766a&openReportSource=ReportInvitation&experience=power-bi" target="_blank">Chamados_B1 - Power BI</a></li>
+          </ul>        
+      </div>
+      <div class="grid-item">
+        <h2>Outbound</h2>
+        <ul>
+          <li><h3>Azure DevOps</h3><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_dashboards/dashboard/c7af0a46-659a-40f5-98fe-d83e52a814be" target="_blank">[Dash]</a><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_boards/board/t/Sustentacao/Sustentacao" target="_blank">[Board]</a></li>
+          <li><h3>Orbit</h3><a href="https://portal.orbitspot.com/home" target="_blank">[PRD]</a><a href="https://hom.portal.orbitspot.com/home" target="_blank">[DEV]</a></li>
+          <li><h3>Orbit Admin</h3><a href="https://auth-service.orbitspot.com/api/users/tool/link-update-by-email/jonatas.oliveira@seidor.com.br" target="_blank">[PRD]</a><a href="https://portal-admin.hom.orbitspot.com/users/edit/22073bec-3708-4e19-9ea7-d09b7e48e5a9" target="_blank">[HOM]</a></li>
+          <li><h3>Orbit Doc</h3><a href="https://api.orbitspot.com/docs#tag/NFe" target="_blank">[PRD]</a><a href="https://hom.api.docs.orbitspot.com/" target="_blank">[HOM]</a></li>
+          <li><h3>LiveOps</h3><a href="https://liveops-americas.seidor.com" target="_blank">[PRD]</a><a href="https://liveops-americas.seidor.com/admin" target="_blank">[ADM]</a></li>
+          <li><h3>SEFAZ</h3><a href="https://www.nfe.fazenda.gov.br/portal/principal.aspx" target="_blank">[PRD]</a><a href="https://hom.nfe.fazenda.gov.br/portal/principal.aspx" target="_blank">[HOM]</a><a href="https://www.sefaz.rs.gov.br/nfe/nfe-val.aspx" target="_blank">[XML]</a></li>          
+        </ul>
+      </div>
+      <div class="grid-item">
+        <h2>Microsoft</h2>
+        <ul>
+          <li><a href="https://www.office.com/launch/forms?auth=2" target="_blank">Forms</a></li>
+          <li><a href="https://seidor-my.sharepoint.com/personal/aoliveira2_seidor_es/_layouts/15/Lists.aspx?login_hint=aoliveira2%40seidor%2Ees" target="_blank">Listas</a></li>
+          <li><a href="https://seidor-my.sharepoint.com/personal/aoliveira2_seidor_es/_layouts/15/onedrive.aspx?view=1" target="_blank">OneDrive</a></li>
+          <li><a href="https://outlook.office.com/mail/" target="_blank">Outlook</a></li>
+          <li><a href="https://make.powerapps.com/environments/Default-654623d6-1504-4f22-a146-b7c72637766a/home?utm_source=office&utm_medium=app_launcher&utm_campaign=office_referrals" target="_blank">Power Apps</a></li>
+          <li><a href="https://make.powerautomate.com/environments/Default-654623d6-1504-4f22-a146-b7c72637766a/home" target="_blank">Power Automate</a></li>
+          <li><a href="https://app.powerbi.com" target="_blank">Power BI</a></li>
+          <li><a href="https://seidor.sharepoint.com/_layouts/15/sharepoint.aspx?&login_hint=aoliveira2@seidor.es" target="_blank">SharePoint</a></li>
+          <li><a href="https://teams.microsoft.com/v2/" target="_blank">Teams</a></li>
+          <li><a href="https://www.office.com/launch/visio?auth=2" target="_blank">Visio</a></li>
+        </ul>        
+      </div>
+      <div class="grid-item">
+        <h2>Utility</h2>
+        <ul>
+          <li><a href="https://adaptivecards.io/designer/" target="_blank">Adaptive Cards</a></li>
+          <li><a href="https://gamma.app" target="_blank">Apresentações Gamma</a></li>
+          <li><a href="https://chat.openai.com/chat" target="_blank">Chat GPT</a></li>  
+          <li><a href="https://genny.lovo.ai/signin" target="_blank">Gerador de Voz Genny</a></li>
+          <li><a href="https://developer.microsoft.com/en-us/graph/graph-explorer" target="_blank">Graph Explorer</a></li>
+          <li><a href="https://jsonformatter.org" target="_blank">JSON Formatter</a></li>
+          <li><a href="https://products.aspose.app/cells/pt/conversion/excel-to-json" target="_blank">EXCEL para JSON</a></li>
+          <li><a href="https://products.aspose.app/cells/pt/conversion/json-to-xlsx" target="_blank">JSON para Excel</a></li>
+          <li><a href="https://semalt.tools/pt/timestamp-converter?time=1712074800000" target="_blank">Time Conversor</a></li>
+        </ul>        
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Painel de Controle. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>
