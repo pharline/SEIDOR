@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cadastro de Tarefa</title>
+<title>Cadastrar Task</title>
 <style>
     body, html {
         height: 100%;
@@ -109,6 +109,22 @@
         background-color: #e60000;
     }
 
+    .go-button {
+        margin-top: 1em;
+        padding: 10px;
+        background-color: #000fe6;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        display: none; /* Inicialmente escondido */
+    }
+
+    .go-button:hover {
+        background-color: #000fe6;
+    }
+
 </style>
 <script>
     function handleFormSubmit(event) {
@@ -120,20 +136,20 @@
 
         const formData = new FormData(event.target);
     
-    // Obter o valor do campo 'descricao'
-    let descricao = formData.get('descricao');
+        // Obter o valor do campo 'descricao'
+        let descricao = formData.get('descricao');
 
-    // Substituir quebras de linha por <br> e envolver o texto com uma única tag <p> no início e </p> no final
-    descricao = `<p>${descricao.trim().replace(/\n+/g, '<br>')}</p>`;
+        // Substituir quebras de linha por <br> e envolver o texto com uma única tag <p> no início e </p> no final
+        descricao = `<p>${descricao.trim().replace(/\n+/g, '<br>')}</p>`;
 
-    // Montar o objeto data com o campo 'descricao' formatado
-    const data = {
-        titulo: formData.get('titulo'),
-        descricao: descricao,
-        criticidade: formData.get('criticidade'),
-        chamado: formData.get('chamado'),
-        target_date: formData.get('target_date')
-    };
+        // Montar o objeto data com o campo 'descricao' formatado
+        const data = {
+            titulo: formData.get('titulo'),
+            descricao: descricao,
+            criticidade: formData.get('criticidade'),
+            chamado: formData.get('chamado'),
+            target_date: formData.get('target_date')
+        };
 
         fetch(event.target.action, {
             method: 'POST',
@@ -146,9 +162,15 @@
         .then(result => {
             loadingAnimation.style.display = 'none';
             if (result.status === 200) {
-                document.getElementById('success-message').textContent = result.message;
                 document.getElementById('success-message').style.display = 'block';
                 document.getElementById('back-button').style.display = 'block';
+
+                // Criar e exibir o botão de redirecionamento com a URL recebida
+                const goButton = document.getElementById('go-button');
+                goButton.style.display = 'block';
+                goButton.onclick = function() {
+                    window.open(result.url, '_blank'); // Use a URL retornada pela API
+                };
             } else if (result.status === 404) {
                 document.getElementById('error-message').textContent = result.message;
                 document.getElementById('error-message').style.display = 'block';
@@ -175,7 +197,7 @@
 </head>
 <body>
 <div class="form-container">
-    <h2>Cadastro de Tarefas</h2>
+    <h2>Cadastrar Task</h2>
     <form id="backlog-form" action="https://prod-191.westeurope.logic.azure.com:443/workflows/6b4050d1b7294adf9e6d3e016f023d50/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Pm4TH6utKPEioiBGx3SibyXAdu9QS0ZDOyOWJxWBqlk" method="POST" onsubmit="handleFormSubmit(event)">
         <div class="form-group">
             <input type="text" name="titulo" placeholder="Título da Tarefa" required>
@@ -198,12 +220,13 @@
         <div class="form-group">
             <input type="date" name="target_date" required>
         </div>
-        <button type="submit">Cadastrar Tarefa</button>
+        <button type="submit">Cadastrar Task</button>
     </form>
     <div id="loading-animation">Enviando...</div>
     <div id="success-message">Solicitação enviada com sucesso!</div>
     <div id="error-message">Erro ao enviar a solicitação</div>
     <button id="back-button" class="back-button" style="display: none;" onclick="goBack()">Voltar</button>
+    <button id="go-button" class="go-button" style="display: none;">Abrir Card</button>
 </div>
 </body>
 </html>
