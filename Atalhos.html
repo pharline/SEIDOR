@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Controle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f7fc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #2d3748;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header .logo img {
+      width: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #4a5568;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .grid-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .grid-item {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: center;
+    }
+
+    .grid-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .grid-item h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .grid-item ul {
+      list-style: none;
+    }
+
+    .grid-item ul li {
+      margin: 15px 0;
+    }
+
+    .grid-item ul li a {
+      color: #3182ce;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      display: inline-block;
+      padding: 2px 2px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .grid-item ul li a:hover {
+      background-color: #2d3748;
+      color: #ffffff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2d3748;
+      color: #fff;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="https://pharline.github.io/SEIDOR/Atalho.html">
+        <img src="https://seidorpmo.com.br/logoseidor_b.png" alt="Logo" style="width: 150px; height: auto;">
+      </a>
+    </div>      
+    <nav>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/jonatas-oliveira-3865081a2/" target="_blank">Linkedin</a></li>
+        <li><a href="https://www.instagram.com/jonatasa2/" target="_blank">Instagram</a></li>
+        <li><a href="https://w.app/NQ5ryC" target="_blank">WhatsApp</a></li>
+      </ul>      
+    </nav>
+  </header>
+
+  <main>
+    <section class="grid-container">
+      <div class="grid-item">
+        <h2>Seidor</h2>
+        <ul>
+          <li><a href="https://teams.microsoft.com/l/app/f6405520-7907-4464-8f6e-9889e2fb7d8f?templateInstanceId=f390830b-0163-4749-9ee7-971a98214153&environment=bccfe53b-7233-eb41-909d-4191317fd04f" target="_blank">Acesso ZOE</a></li>
+          <li><a href="https://outbound.com.br/" target="_blank">Site Outbound</a></li>
+          <li><a href="https://www.solvor.com.br/" target="_blank">Solvor</a></li>
+          <li><a href="https://portal.orbitspot.com/timeflow/timeflow/time-management/monthly-summary" target="_blank">TimeFlow</a></li>
+          <li><a href="https://secure.d4sign.com.br/desk/cofres/467293/2c4885d7-b0d2-4540-abaf-d2947af1ad22.html" target="_blank">D4Sign</a></li>
+          <li><a href="https://seidor.sharepoint.com/:x:/r/teams/Seidor4TaxCloudBrasil/Documentos%20compartidos/Product%20Outbound/Documenta%C3%A7%C3%A3o/Escala%20Outbound%20Sustenta%C3%A7%C3%A3o%20Feriados%20-%20Plant%C3%A3o.xlsx?d=w481949f4b53a4edaab19bb9faba68a5f&csf=1&web=1&e=6fm00G" target="_blank">Escala OutBound</a></li>                   
+          <li><a href="https://app.powerbi.com/groups/me/reports/c9c265ea-992d-4f3b-ac62-a7279b2664d0/353dabe0b1d37e84d8cb?ctid=654623d6-1504-4f22-a146-b7c72637766a&openReportSource=ReportInvitation&experience=power-bi" target="_blank">Chamados Power BI - B1</a></li>
+          <li><a href="https://app.powerbi.com/groups/me/apps/d4ee0161-1eda-43f0-9950-c45732746e27/reports/aa3c543a-10b4-40c3-9e80-bc6d8edbe652/ReportSection?ctid=654623d6-1504-4f22-a146-b7c72637766a&experience=power-bi" target="_blank">Power BI - 4tax</a></li>
+
+        </ul>        
+      </div>
+      <div class="grid-item">
+        <h2>Outbound</h2>
+        <ul>
+          <li><h3>Azure DevOps</h3><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_dashboards/dashboard/c7af0a46-659a-40f5-98fe-d83e52a814be" target="_blank">[Dash]</a><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_boards/board/t/Sustentacao/Sustentacao" target="_blank">[Board]</a><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_wiki/wikis/Outbound.wiki/" target="_blank">[WIKI]</a></li>
+          <li><h3>Portal Orbit</h3><a href="https://portal.orbitspot.com/home" target="_blank">[PRD]</a><a href="https://hom.portal.orbitspot.com/home" target="_blank">[DEV]</a></li>
+          <li><h3>Orbit Admin</h3><a href="https://admin.orbitspot.com/" target="_blank">[PRD]</a><a href="https://portal-admin.hom.orbitspot.com/users" target="_blank">[HOM]</a></li>
+          <li><h3>Doc API</h3><a href="https://api.orbitspot.com/docs" target="_blank">[PRD]</a><a href="https://hom.api.docs.orbitspot.com/" target="_blank">[HOM]</a></li>
+          <li><h3>LiveOps</h3><a href="https://liveops-americas.seidor.com" target="_blank">[PRD]</a><a href="https://liveops-americas.seidor.com/admin" target="_blank">[ADM]</a></li>
+        </ul>
+      </div>
+      <div class="grid-item">
+        <h2>SEFAZ</h2>
+        <ul>
+          <li><h3>Produção</h3><a href="https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=" target="_blank">[NFe]</a><a href="https://www.cte.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=" target="_blank">[CTe]</a><a href="https://dfe-portal.svrs.rs.gov.br/MDFE/Consulta" target="_blank">[MDFe]</a></a><a href="https://www.nfe.fazenda.gov.br/portal/disponibilidade.aspx?versao=0.00&tipoConteudo=P2c98tUpxrI=" target="_blank">[Disponibilidade]</a></li>
+          <li><h3>Homologação</h3><a href="https://hom.nfe.fazenda.gov.br/portal/principal.aspx" target="_blank">[NFe]</a><a href="https://hom.cte.fazenda.gov.br/portal/principal.aspx" target="_blank">[CTe]</a><a href="https://dfe-portal.svrs.rs.gov.br/MDFE/Consulta" target="_blank">[MDFe]</a></a><a href="https://hom.nfe.fazenda.gov.br/portal/disponibilidade.aspx?versao=0.00&tipoConteudo=P2c98tUpxrI=" target="_blank">[Disponibilidade]</a></li>
+          <li><h3>Validador XML</h3><a href="https://www.sefaz.rs.gov.br/nfe/nfe-val.aspx" target="_blank">[NFe]</a><a href="https://dfe-portal.svrs.rs.gov.br/Cte/ValidadorXML" target="_blank">[CTe]</a><a href="https://dfe-portal.svrs.rs.gov.br/MDFE/ValidadorXML" target="_blank">[MDFe]</a></li>
+          <li><h3>Cadastro Contribuinte</h3><a href="https://dfe-portal.svrs.rs.gov.br/nfe/ccc" target="_blank">[NFe]</a><a href="https://dfe-portal.svrs.rs.gov.br/cte/ccc" target="_blank">[CTe]</a><a href="https://dfe-portal.svrs.rs.gov.br/mdfe/ccc" target="_blank">[MDFe]</a></li>
+          <li><a href="https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx" target="_blank">Consulta Transportadores</a></li>
+          <li><a href="http://sped.rfb.gov.br/pagina/show/1601" target="_blank">Tabelas de Códigos</a></li>
+
+        </ul>        
+      </div>
+      <div class="grid-item">
+        <h2>Utility</h2>
+        <ul>
+          <li><a href="https://oobj.com.br/bc/" target="_blank">Conhecimento - Oobj</a></li>
+          <li><a href="https://chat.openai.com/chat" target="_blank">Chat GPT</a></li>  
+          <li><a href="https://jsonformatter.org" target="_blank">JSON Formatter</a></li>
+          <li><a href="https://jsoncompare.org/" target="_blank">JSON DIFF</a></li>
+          <li><a href="https://extendsclass.com/xml-diff.html" target="_blank">XML DIFF</a></li>
+          <li><a href="https://products.aspose.app/cells/pt/conversion/json-to-xlsx" target="_blank">JSON para Excel</a></li>
+          <li><a href="https://base64.guru/converter/decode/file" target="_blank">Base64 to file</a></li>
+          <li><a href="https://www.contabeis.com.br/ferramentas/danfe/" target="_blank">Imprimir DANFE</a></li>
+          <li><a href="https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank">Consultar CNPJ</a></li>
+        </ul>        
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Painel de Controle. Todos os direitos reservados.</p>
+    <p>&copy; Jonatas Oliveira</p>
+  </footer>
+</body>
+</html>
