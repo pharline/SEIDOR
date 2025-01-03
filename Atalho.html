@@ -6,16 +6,15 @@
   <title>Painel de Controle</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* Estilos Globais */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     html, body {
       height: 100%;
     }
-
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f4f7fc;
@@ -24,7 +23,6 @@
       flex-direction: column;
       min-height: 100%;
     }
-
     header {
       display: flex;
       justify-content: space-between;
@@ -33,17 +31,15 @@
       background-color: #2d3748;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-
     header .logo img {
-      width: 50px;
+      width: 150px;
+      height: auto;
     }
-
     nav ul {
       list-style: none;
       display: flex;
       gap: 15px;
     }
-
     nav ul li a {
       color: #ffffff;
       text-decoration: none;
@@ -52,23 +48,19 @@
       border-radius: 5px;
       transition: background-color 0.3s ease;
     }
-
     nav ul li a:hover {
       background-color: #4a5568;
     }
-
     main {
       flex: 1;
       padding: 40px;
     }
-
     .grid-container {
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
       justify-content: center;
     }
-
     .grid-item {
       background-color: #ffffff;
       padding: 30px;
@@ -78,43 +70,32 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       text-align: center;
     }
-
     .grid-item:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
-
-    .grid-item h2 {
+    .grid-item h3 {
       margin-bottom: 20px;
       font-size: 22px;
       color: #2d3748;
       font-weight: 600;
     }
-
-    .grid-item ul {
-      list-style: none;
-    }
-
-    .grid-item ul li {
-      margin: 15px 0;
-    }
-
-    .grid-item ul li a {
-      color: #3182ce;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 16px;
+    .button {
       display: inline-block;
-      padding: 2px 2px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      border-radius: 4px;
-    }
-
-    .grid-item ul li a:hover {
-      background-color: #2d3748;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 500;
       color: #ffffff;
+      background-color: #3182ce;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
     }
-
+    .button:hover {
+      background-color: #225ea8;
+    }
     footer {
       text-align: center;
       padding: 20px;
@@ -122,92 +103,139 @@
       color: #fff;
       font-size: 14px;
     }
+    /* Estilos para Mensagens */
+    .message {
+      display: none;
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .message.loading {
+      color: #ffcc00;
+    }
+    .message.success {
+      color: #00cc66;
+    }
+    .message.error {
+      color: #ff3300;
+    }
+
+    /* Estilo do Select */
+    select {
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
   </style>
+  <script>
+    /**
+     * Função para enviar requisição POST
+     * @param {String} apiUrl - URL da sua API/endpoint
+     * @param {String} messageId - ID do elemento que exibirá mensagens
+     * @param {String} selectId - ID do select com o email
+     */
+    async function sendRequest(apiUrl, messageId, selectId) {
+      const messageElement = document.getElementById(messageId);
+      // Captura o valor do e-mail selecionado
+      const emailValue = document.getElementById(selectId).value;
+
+      // Exibe mensagem de processamento
+      messageElement.className = 'message loading';
+      messageElement.textContent = 'Processando...';
+      messageElement.style.display = 'block';
+
+      try {
+        // Envia a requisição POST com o e-mail no corpo JSON
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailValue })
+        });
+
+        if (response.ok) {
+          // Se a requisição retornar status 200-299
+          messageElement.className = 'message success';
+          messageElement.textContent = 'Relatório gerado com sucesso!';
+        } else {
+          throw new Error('Erro ao gerar o relatório.');
+        }
+      } catch (error) {
+        messageElement.className = 'message error';
+        messageElement.textContent = error.message;
+      }
+    }
+  </script>
 </head>
 <body>
   <header>
     <div class="logo">
-      <a href="https://pharline.github.io/SEIDOR/Atalhos.html">
-        <img src="https://seidorpmo.com.br/logoseidor_b.png" alt="Logo" style="width: 150px; height: auto;">
+      <a href="https://pharline.github.io/SEIDOR/Atalho.html">
+        <img src="https://seidorpmo.com.br/logoseidor_b.png" alt="Logo">
       </a>
-    </div>    
+    </div>
     <nav>
       <ul>
-        <li><a href="https://seidor-my.sharepoint.com/personal/aoliveira2_seidor_es/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Faoliveira2_seidor_es%2FDocuments%2FBlocos de Anotações&view=0" target="_blank">Tokens</a></li>
-        <li><a href="https://outbound.com.br/" target="_blank">Outbound</a></li>
-        <li><a href="https://app.powerbi.com/groups/me/reports/c9c265ea-992d-4f3b-ac62-a7279b2664d0/353dabe0b1d37e84d8cb?ctid=654623d6-1504-4f22-a146-b7c72637766a&openReportSource=ReportInvitation&experience=power-bi" target="_blank">Chamados_B1 - Power BI</a></li>
-        <li><a href="https://seidor.sharepoint.com/sites/SeidorBR/projetos" target="_blank">App Projetos</a></li>
-        <li><a href="https://seidor.sharepoint.com/sites/SeidorBR/Documentos/Forms/AllItems.aspx" target="_blank">Doc Projetos</a></li>
-        <li><a href="https://seidor.sharepoint.com/sites/SeidorBR/Projects.aspx" target="_blank">PWA</a></li>
-        <li><a href="https://portal.orbitspot.com/servicesmfe/service-contracts/contract-list" target="_blank">TimeFlow</a></li>
-        <li><a href="https://secure.d4sign.com.br/desk/cofres/467293/2c4885d7-b0d2-4540-abaf-d2947af1ad22.html" target="_blank">D4Sign</a></li>
-        <li><a href="https://github.com/pharline/SEIDOR" target="_blank">GitHub</a></li>
-        <li><a href="https://mg-manhuacu-pm-nfs.cloud.el.com.br/paginas/nfe/form/formNfeNotasFiscais.jsf" target="_blank">NFS-e Manhuaçu</a></li>
-        <li><a href="https://seidorpmo.com.br/apontamento-liveops.html" target="_blank">Apontamento</a></li>
-      </ul>      
+        <li><a href="https://www.linkedin.com/in/jonatas-oliveira-3865081a2/" target="_blank">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/jonatasa2/" target="_blank">Instagram</a></li>
+        <li><a href="https://w.app/NQ5ryC" target="_blank">WhatsApp</a></li>
+      </ul>
     </nav>
   </header>
-
   <main>
     <section class="grid-container">
+
+      <!-- ITEM 1 -->
       <div class="grid-item">
-        <h2>Seidor</h2>
-        <ul>
-          <li><a href="https://teams.microsoft.com/l/app/f6405520-7907-4464-8f6e-9889e2fb7d8f?templateInstanceId=f390830b-0163-4749-9ee7-971a98214153&environment=bccfe53b-7233-eb41-909d-4191317fd04f" target="_blank">Acesso ZOE</a></li>
-          <li><a href="https://clarity.microsoft.com/projects/view/nmou85iq4g/dashboard?date=Custom&end=1726541940000&start=1704078000000&URL=2%3B2%3Boutbound" target="_blank">Clarity</a></li>
-          <li><a href="https://oobj.com.br/bc/" target="_blank">Conhecimento - Oobj</a></li>
-          <li><a href="https://seidor.sharepoint.com/:x:/r/teams/Seidor4TaxCloudBrasil/Documentos%20compartidos/Product%20Outbound/Documenta%C3%A7%C3%A3o/Escala%20Outbound%20Sustenta%C3%A7%C3%A3o%20Feriados%20-%20Plant%C3%A3o.xlsx?d=w481949f4b53a4edaab19bb9faba68a5f&csf=1&web=1&e=6fm00G" target="_blank">Escala OutBound</a></li>
-          <li><a href="https://developer.microsoft.com/en-us/graph/graph-explorer" target="_blank">Graph Explorer</a></li>
-          <li><a href="https://pharline.github.io/SEIDOR/Relatoriolv2.html">LiveOps - Relatorios</a></li>
-          
-          </ul>        
+        <h3>Relatório Chamados Planejado</h3>
+        <!-- Campo de seleção de e-mail (selecionado Caio por padrão) -->
+        <select id="emailSelect1">
+          <option value="aoliveira2@seidor.es" selected>Jonatas Oliveira</option>
+          <option value="rcarneiro@seidor.es">Raphael Carnerio</option>
+        </select>
+        <button
+          class="button"
+          onclick="sendRequest(
+            'https://prod-125.westeurope.logic.azure.com:443/workflows/ed0078a595ca4242a6186a8f1bea2fab/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eYWFXHnJYCtYM8gRRiJtIqh5ebj90GnTvzihlYWfYc',
+            'message1',
+            'emailSelect1'
+          )"
+        >
+          Gerar Relatório
+        </button>
+        <div id="message1" class="message"></div>
       </div>
+
+      <!-- ITEM 2 -->
       <div class="grid-item">
-        <h2>Outbound</h2>
-        <ul>
-          <li><h3>Azure DevOps</h3><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_dashboards/dashboard/c7af0a46-659a-40f5-98fe-d83e52a814be" target="_blank">[Dash]</a><a href="https://dev.azure.com/SEIDOR-RFC/Outbound/_boards/board/t/Sustentacao/Sustentacao" target="_blank">[Board]</a></li>
-          <li><h3>Orbit</h3><a href="https://portal.orbitspot.com/home" target="_blank">[PRD]</a><a href="https://hom.portal.orbitspot.com/home" target="_blank">[DEV]</a></li>
-          <li><h3>Orbit Admin</h3><a href="https://auth-service.orbitspot.com/api/users/tool/link-update-by-email/jonatas.oliveira@seidor.com.br" target="_blank">[PRD]</a><a href="https://portal-admin.hom.orbitspot.com/users/edit/22073bec-3708-4e19-9ea7-d09b7e48e5a9" target="_blank">[HOM]</a></li>
-          <li><h3>Orbit Doc</h3><a href="https://api.orbitspot.com/docs#tag/NFe" target="_blank">[PRD]</a><a href="https://hom.api.docs.orbitspot.com/" target="_blank">[HOM]</a></li>
-          <li><h3>LiveOps</h3><a href="https://liveops-americas.seidor.com" target="_blank">[PRD]</a><a href="https://liveops-americas.seidor.com/admin" target="_blank">[ADM]</a></li>
-          <li><h3>SEFAZ</h3><a href="https://www.nfe.fazenda.gov.br/portal/principal.aspx" target="_blank">[PRD]</a><a href="https://hom.nfe.fazenda.gov.br/portal/principal.aspx" target="_blank">[HOM]</a><a href="https://www.sefaz.rs.gov.br/nfe/nfe-val.aspx" target="_blank">[XML]</a><a href="https://www.contabeis.com.br/ferramentas/danfe/" target="_blank">[DANFE]</a></li>          
-        </ul>
+        <h3>Relatório Chamados Em Atendimentos</h3>
+        <!-- Campo de seleção de e-mail (selecionado Caio por padrão) -->
+        <select id="emailSelect2">
+          <option value="cgoncalves3@seidor.es" selected>Caio Gonçalves</option>
+          <option value="aoliveira2@seidor.es">Jonatas Oliveira</option>
+          <option value="rcarneiro@seidor.es">Raphael Carneiro</option>
+        </select>
+        <button
+          class="button"
+          onclick="sendRequest(
+            'https://prod-142.westeurope.logic.azure.com:443/workflows/981aace0a3254e67b7f504be6bda474e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uc7_dB1RbAVDk3_gNHumpxiZVXwHe9EU9BaX1MVdyXQ',
+            'message2',
+            'emailSelect2'
+          )"
+        >
+          Gerar Relatório
+        </button>
+        <div id="message2" class="message"></div>
       </div>
-      <div class="grid-item">
-        <h2>Microsoft</h2>
-        <ul>
-          <li><a href="https://www.office.com/launch/forms?auth=2" target="_blank">Forms</a></li>
-          <li><a href="https://seidor-my.sharepoint.com/personal/aoliveira2_seidor_es/_layouts/15/Lists.aspx?login_hint=aoliveira2%40seidor%2Ees" target="_blank">Listas</a></li>
-          <li><a href="https://seidor-my.sharepoint.com/personal/aoliveira2_seidor_es/_layouts/15/onedrive.aspx?view=1" target="_blank">OneDrive</a></li>
-          <li><a href="https://outlook.office.com/mail/" target="_blank">Outlook</a></li>
-          <li><a href="https://make.powerapps.com/environments/Default-654623d6-1504-4f22-a146-b7c72637766a/home?utm_source=office&utm_medium=app_launcher&utm_campaign=office_referrals" target="_blank">Power Apps</a></li>
-          <li><a href="https://make.powerautomate.com/environments/Default-654623d6-1504-4f22-a146-b7c72637766a/home" target="_blank">Power Automate</a></li>
-          <li><a href="https://app.powerbi.com" target="_blank">Power BI</a></li>
-          <li><a href="https://seidor.sharepoint.com/_layouts/15/sharepoint.aspx?&login_hint=aoliveira2@seidor.es" target="_blank">SharePoint</a></li>
-          <li><a href="https://teams.microsoft.com/v2/" target="_blank">Teams</a></li>
-          <li><a href="https://www.office.com/launch/visio?auth=2" target="_blank">Visio</a></li>
-        </ul>        
-      </div>
-      <div class="grid-item">
-        <h2>Utility</h2>
-        <ul>
-          <li><a href="https://adaptivecards.io/designer/" target="_blank">Adaptive Cards</a></li>
-          <li><a href="https://gamma.app" target="_blank">Apresentações Gamma</a></li>
-          <li><a href="https://chat.openai.com/chat" target="_blank">Chat GPT</a></li>  
-          <li><a href="https://genny.lovo.ai/signin" target="_blank">Gerador de Voz Genny</a></li>
-          <li><a href="https://developer.microsoft.com/en-us/graph/graph-explorer" target="_blank">Graph Explorer</a></li>
-          <li><a href="https://jsonformatter.org" target="_blank">JSON Formatter</a></li>
-          <li><a href="https://jsoncompare.org/" target="_blank">JSON Compare</a></li>
-          <li><a href="https://products.aspose.app/cells/pt/conversion/excel-to-json" target="_blank">EXCEL para JSON</a></li>
-          <li><a href="https://products.aspose.app/cells/pt/conversion/json-to-xlsx" target="_blank">JSON para Excel</a></li>
-          <li><a href="https://semalt.tools/pt/timestamp-converter?time=1712074800000" target="_blank">Time Conversor</a></li>
-        </ul>        
-      </div>
+
     </section>
   </main>
-
   <footer>
     <p>&copy; 2024 Painel de Controle. Todos os direitos reservados.</p>
+    <p>&copy; Jonatas Oliveira</p>
   </footer>
 </body>
 </html>
