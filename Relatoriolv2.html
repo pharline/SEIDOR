@@ -120,18 +120,44 @@
     .message.error {
       color: #ff3300;
     }
+
+    /* Estilo do Select */
+    select {
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
   </style>
   <script>
-    async function sendRequest(apiUrl, messageId) {
+    /**
+     * Função para enviar requisição POST
+     * @param {String} apiUrl - URL da sua API/endpoint
+     * @param {String} messageId - ID do elemento que exibirá mensagens
+     * @param {String} selectId - ID do select com o email
+     */
+    async function sendRequest(apiUrl, messageId, selectId) {
       const messageElement = document.getElementById(messageId);
+      // Captura o valor do e-mail selecionado
+      const emailValue = document.getElementById(selectId).value;
+
+      // Exibe mensagem de processamento
       messageElement.className = 'message loading';
       messageElement.textContent = 'Processando...';
       messageElement.style.display = 'block';
 
       try {
-        const response = await fetch(apiUrl, { method: 'POST' });
+        // Envia a requisição POST com o e-mail no corpo JSON
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailValue })
+        });
 
         if (response.ok) {
+          // Se a requisição retornar status 200-299
           messageElement.className = 'message success';
           messageElement.textContent = 'Relatório gerado com sucesso!';
         } else {
@@ -161,16 +187,50 @@
   </header>
   <main>
     <section class="grid-container">
+
+      <!-- ITEM 1 -->
       <div class="grid-item">
         <h3>Relatório Chamados Planejado</h3>
-        <button class="button" onclick="sendRequest('https://prod-125.westeurope.logic.azure.com:443/workflows/ed0078a595ca4242a6186a8f1bea2fab/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eYWFXHnJYCtYM8gRRiJtIqh5ebj90GnTvzihlYWfYc', 'message1')">Gerar Relatório</button>
+        <!-- Campo de seleção de e-mail (selecionado Caio por padrão) -->
+        <select id="emailSelect1">
+          <option value="aoliveira2@seidor.es" selected>Jonatas Oliveira</option>
+          <option value="rcarneiro@seidor.es">Raphael Carnerio</option>
+        </select>
+        <button
+          class="button"
+          onclick="sendRequest(
+            'https://prod-125.westeurope.logic.azure.com:443/workflows/ed0078a595ca4242a6186a8f1bea2fab/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eYWFXHnJYCtYM8gRRiJtIqh5ebj90GnTvzihlYWfYc',
+            'message1',
+            'emailSelect1'
+          )"
+        >
+          Gerar Relatório
+        </button>
         <div id="message1" class="message"></div>
       </div>
+
+      <!-- ITEM 2 -->
       <div class="grid-item">
         <h3>Relatório Chamados Em Atendimentos</h3>
-        <button class="button" onclick="sendRequest('https://prod-142.westeurope.logic.azure.com:443/workflows/981aace0a3254e67b7f504be6bda474e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uc7_dB1RbAVDk3_gNHumpxiZVXwHe9EU9BaX1MVdyXQ', 'message2')">Gerar Relatório</button>
+        <!-- Campo de seleção de e-mail (selecionado Caio por padrão) -->
+        <select id="emailSelect2">
+          <option value="cgoncalves3@seidor.es" selected>Caio Gonçalves</option>
+          <option value="aoliveira2@seidor.es">Jonatas Oliveira</option>
+          <option value="rcarneiro@seidor.es">Raphael Carneiro</option>
+        </select>
+        <button
+          class="button"
+          onclick="sendRequest(
+            'https://prod-142.westeurope.logic.azure.com:443/workflows/981aace0a3254e67b7f504be6bda474e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uc7_dB1RbAVDk3_gNHumpxiZVXwHe9EU9BaX1MVdyXQ',
+            'message2',
+            'emailSelect2'
+          )"
+        >
+          Gerar Relatório
+        </button>
         <div id="message2" class="message"></div>
       </div>
+
     </section>
   </main>
   <footer>
