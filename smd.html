@@ -41,7 +41,7 @@
                 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             width: 100%;
             max-width: 420px;
-            max-height: 90vh;
+            max-height: 100vh;
             overflow: hidden;
             transition: all 0.3s ease;
         }
@@ -99,7 +99,7 @@
 
         .form-content {
             padding: 24px 30px;
-            max-height: calc(90vh - 120px);
+            max-height: calc(100% - 10%);
             overflow-y: auto;
         }
 
@@ -193,13 +193,13 @@
         }
 
         .criticality-baixo {
-            background: #dcfce7;
+            background: #a9ffc7;
             color: #166534;
         }
 
-        .criticality-medio {
-            background: #fef3c7;
-            color: #92400e;
+        .criticality-médio {
+            background: #fbff00;
+            color: #166534;
         }
 
         .criticality-alto {
@@ -207,8 +207,8 @@
             color: #c2410c;
         }
 
-        .criticality-critico {
-            background: #fecaca;
+        .criticality-crítico {
+            background: #ff9494;
             color: #dc2626;
         }
 
@@ -269,22 +269,33 @@
         .loading-state .state-icon {
             background: #dbeafe;
             color: #3b82f6;
-            animation: pulse 2s infinite;
+            animation: rotate 1.5s infinite;
         }
 
         .success-state .state-icon {
             background: #dcfce7;
             color: #16a34a;
+            animation: pulse 1s infinite;
         }
 
         .error-state .state-icon {
             background: #fecaca;
             color: #dc2626;
+            animation: pulse 0.5s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
+        }
+
+        @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
         }
 
         .state-title {
@@ -393,11 +404,9 @@
 
             <!-- Formulário -->
             <div id="form-content" class="form-content">
-                <div class="progress-steps">
+                <!--div class="progress-steps">
                     <div class="step active"></div>
-                    <div class="step"></div>
-                    <div class="step"></div>
-                </div>
+                </div-->
 
                 <form id="smd-form" onsubmit="handleFormSubmit(event)">
                     <div class="form-group">
@@ -461,6 +470,24 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label" for="tipo">Tipo da SMD</label>
+                        <select 
+                            id="tipo" 
+                            name="tipo" 
+                            class="form-select" 
+                            required
+
+                        >
+                            <option value="">Selecione o Tipo da SMD</option>
+                            <option value="Municipio">Novo Municipio</option>
+                            <option value="SMD Manut">Demanda de Sustentação</option>
+                            <option value="SMD Projeto">SMD de Projeto</option>
+                        </select>
+                        <div id="criticality-badge" class="criticality-badge"></div>
+                        <div class="field-hint">Defina o Tipo da SMD</div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label" for="target_date">Data de Entrega</label>
                         <input 
                             type="date" 
@@ -483,17 +510,17 @@
             <div id="loading-state" class="loading-state">
                 <div class="state-icon">⏳</div>
                 <h3 class="state-title">Processando Solicitação</h3>
-                <p class="state-message">Registrando demanda no sistema corporativo...</p>
+                <p class="state-message">Sua Solicitação esta sendo processada. Aguarde!..</p>
             </div>
 
             <!-- Estado de Sucesso -->
             <div id="success-state" class="success-state">
-                <div class="state-icon">✓</div>
+                <div class="state-icon">👍</div>
                 <h3 class="state-title">Demanda Registrada</h3>
                 <p class="state-message">Sua solicitação foi registrada com sucesso no sistema SMD</p>
                 <div class="action-buttons">
                     <button id="open-card-btn" class="btn btn-primary">
-                        📊 Visualizar Demanda
+                        👀📋 Visualizar Demanda
                     </button>
                     <button onclick="resetForm()" class="btn btn-secondary">
                         ← Nova Demanda
@@ -544,7 +571,7 @@
         function updateProgress() {
             const form = document.getElementById('smd-form');
             const formData = new FormData(form);
-            const fields = ['titulo', 'descricao', 'chamado', 'criticidade', 'target_date'];
+            const fields = ['titulo', 'descricao', 'chamado', 'tipo', 'criticidade', 'target_date'];
             const filledFields = fields.filter(field => formData.get(field));
             
             const steps = document.querySelectorAll('.step');
@@ -578,6 +605,7 @@
                 titulo: formData.get('titulo'),
                 descricao: descricao,
                 criticidade: formData.get('criticidade'),
+                tipo: formData.get('tipo'),
                 chamado: formData.get('chamado'),
                 target_date: formData.get('target_date')
             };
@@ -645,4 +673,3 @@
     </script>
 </body>
 </html>
-
