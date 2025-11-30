@@ -13,23 +13,24 @@
         }
 
         body, html {
-            height: 100vh;
-            width: 100vw;
+            min-height: 100vh;
+            width: 100%;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             color: #334155;
             display: flex;
-            align-items: center;
+            align-items: flex-start;  /* evita cortar topo/rodapé */
             justify-content: center;
-            overflow: hidden;
+            overflow-y: auto;         /* permite scroll vertical */
+            overflow-x: hidden;
+            padding: 24px 12px;
         }
 
         .container {
             width: 100%;
             max-width: 450px;
-            height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             justify-content: center;
         }
 
@@ -41,9 +42,8 @@
                 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             width: 100%;
             max-width: 420px;
-            max-height: 100vh;
-            overflow: hidden;
             transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .form-card:hover {
@@ -99,36 +99,6 @@
 
         .form-content {
             padding: 24px 30px;
-            max-height: calc(100% - 10%);
-            overflow-y: auto;
-        }
-
-        .form-content::-webkit-scrollbar {
-            display: none;
-        }
-
-        .form-content {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .progress-steps {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-
-        .step {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .step.active {
-            background: #3b82f6;
         }
 
         .form-group {
@@ -248,7 +218,6 @@
             transform: none;
         }
 
-        /* Estados do formulário */
         .loading-state, .success-state, .error-state {
             display: none;
             text-align: center;
@@ -290,12 +259,8 @@
         }
 
         @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
         }
 
         .state-title {
@@ -354,7 +319,6 @@
             border-color: #cbd5e1;
         }
 
-        /* Validação visual */
         .form-input.valid, .form-textarea.valid, .form-select.valid {
             border-color: #10b981;
         }
@@ -363,27 +327,24 @@
             border-color: #ef4444;
         }
 
-        /* Responsividade */
         @media (max-width: 480px) {
-            .container {
+            body, html {
                 padding: 0;
+                align-items: stretch;
             }
-            
+
             .form-card {
                 border-radius: 0;
-                height: 100vh;
-                max-height: 100vh;
             }
-            
+
             .form-content {
                 padding: 20px;
-                max-height: calc(100vh - 100px);
             }
-            
+
             .header {
                 padding: 20px;
             }
-            
+
             .header h1 {
                 font-size: 20px;
             }
@@ -393,7 +354,7 @@
 <body>
     <div class="container">
         <div class="form-card">
-            <!-- Header Corporativo -->
+            <!-- Header -->
             <div class="header">
                 <div class="company-logo">
                     📋
@@ -404,10 +365,6 @@
 
             <!-- Formulário -->
             <div id="form-content" class="form-content">
-                <!--div class="progress-steps">
-                    <div class="step active"></div>
-                </div-->
-
                 <form id="smd-form" onsubmit="handleFormSubmit(event)">
                     <div class="form-group">
                         <label class="form-label" for="titulo">Título da Demanda</label>
@@ -476,15 +433,28 @@
                             name="tipo" 
                             class="form-select" 
                             required
-
+                            onchange="handleTipoChange(this)"
                         >
                             <option value="">Selecione o Tipo da SMD</option>
                             <option value="Municipio">Novo Municipio</option>
                             <option value="SMD Manut">Demanda de Sustentação</option>
                             <option value="SMD Projeto">SMD de Projeto</option>
                         </select>
-                        <div id="criticality-badge" class="criticality-badge"></div>
                         <div class="field-hint">Defina o Tipo da SMD</div>
+                    </div>
+
+                    <!-- Campo IBGE condicional -->
+                    <div class="form-group" id="ibge-group" style="display: none;">
+                        <label class="form-label" for="ibge">Código IBGE do Município</label>
+                        <input
+                            type="number"
+                            id="ibge"
+                            name="ibge"
+                            class="form-input"
+                            placeholder="Ex: 3106200"
+                            oninput="validateField(this)"
+                        >
+                        <div class="field-hint">Obrigatório quando o tipo for "Novo Município".</div>
                     </div>
 
                     <div class="form-group">
@@ -510,7 +480,7 @@
             <div id="loading-state" class="loading-state">
                 <div class="state-icon">⏳</div>
                 <h3 class="state-title">Processando Solicitação</h3>
-                <p class="state-message">Sua Solicitação esta sendo processada. Aguarde!..</p>
+                <p class="state-message">Sua Solicitação está sendo processada. Aguarde!..</p>
             </div>
 
             <!-- Estado de Sucesso -->
@@ -554,7 +524,6 @@
             } else {
                 badge.style.display = 'none';
             }
-            updateProgress();
         }
 
         function validateField(field) {
@@ -565,25 +534,24 @@
                 field.classList.remove('valid');
                 field.classList.add('invalid');
             }
-            updateProgress();
         }
 
-        function updateProgress() {
-            const form = document.getElementById('smd-form');
-            const formData = new FormData(form);
-            const fields = ['titulo', 'descricao', 'chamado', 'tipo', 'criticidade', 'target_date'];
-            const filledFields = fields.filter(field => formData.get(field));
-            
-            const steps = document.querySelectorAll('.step');
-            const progress = Math.ceil((filledFields.length / fields.length) * steps.length);
-            
-            steps.forEach((step, index) => {
-                if (index < progress) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
+        // Mostra/esconde IBGE e controla obrigatoriedade
+        function handleTipoChange(select) {
+            const ibgeGroup = document.getElementById('ibge-group');
+            const ibgeInput = document.getElementById('ibge');
+
+            if (select.value === 'Municipio') {
+                ibgeGroup.style.display = 'block';
+                ibgeInput.setAttribute('required', 'required');
+            } else {
+                ibgeGroup.style.display = 'none';
+                ibgeInput.removeAttribute('required');
+                ibgeInput.classList.remove('valid', 'invalid');
+                ibgeInput.value = '';
+            }
+
+            validateField(select);
         }
 
         function showState(state) {
@@ -607,7 +575,8 @@
                 criticidade: formData.get('criticidade'),
                 tipo: formData.get('tipo'),
                 chamado: formData.get('chamado'),
-                target_date: formData.get('target_date')
+                target_date: formData.get('target_date'),
+                ibge: formData.get('ibge') || null
             };
 
             try {
@@ -641,36 +610,23 @@
         function resetForm() {
             document.getElementById('smd-form').reset();
             document.getElementById('criticality-badge').style.display = 'none';
-            
-            // Reset validation classes
+            document.getElementById('ibge-group').style.display = 'none';
+
             const fields = document.querySelectorAll('.form-input, .form-textarea, .form-select');
             fields.forEach(field => {
                 field.classList.remove('valid', 'invalid');
             });
-            
-            // Reset progress
-            const steps = document.querySelectorAll('.step');
-            steps.forEach((step, index) => {
-                if (index === 0) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
-            
+
             resultUrl = '';
             showState('form');
         }
 
-        // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
             showState('form');
-            
-            // Set minimum date to today
+
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('target_date').setAttribute('min', today);
         });
     </script>
 </body>
 </html>
-
