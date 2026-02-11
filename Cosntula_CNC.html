@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulta CNC</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --primary: #0f766e;
+      --primary-hover: #0d5f59;
+      --error: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 100%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(900px, 100%);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    input {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 14px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      height: fit-content;
+    }
+
+    button:hover { background: var(--primary-hover); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      word-break: break-all;
+    }
+
+    .error {
+      color: var(--error);
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: none;
+    }
+
+    pre {
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0b1220;
+      color: #e5e7eb;
+      padding: 14px;
+      overflow: auto;
+      min-height: 220px;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Consulta CNC</h1>
+    <p>Consulta por município e inscrição federal, exibindo o body completo da resposta.</p>
+
+    <form id="consultaForm">
+      <div class="field">
+        <label for="codMunicipio">Código do Município</label>
+        <input id="codMunicipio" name="codMunicipio" value="1500800" required />
+      </div>
+
+      <div class="field">
+        <label for="inscricaoFederal">Inscrição Federal</label>
+        <input id="inscricaoFederal" name="inscricaoFederal" value="13781486000194" required />
+      </div>
+
+      <button id="consultarBtn" type="submit">Consultar</button>
+    </form>
+
+    <div class="meta" id="meta">URL da consulta: -</div>
+    <div class="error" id="erro"></div>
+    <pre id="resultado">Aguardando consulta...</pre>
+  </main>
+
+  <script>
+    const form = document.getElementById('consultaForm');
+    const btn = document.getElementById('consultarBtn');
+    const meta = document.getElementById('meta');
+    const erro = document.getElementById('erro');
+    const resultado = document.getElementById('resultado');
+
+    function montarUrl(codMunicipio, inscricaoFederal) {
+      const base = 'https://adn.nfse.gov.br/cnc/consulta/cad/';
+      const params = new URLSearchParams({ codMunicipio, inscricaoFederal });
+      return `${base}?${params.toString()}`;
+    }
+
+    async function consultar(url) {
+      const resposta = await fetch(url, { method: 'GET' });
+      const bodyTexto = await resposta.text();
+
+      let bodyExibicao = bodyTexto;
+      try {
+        const json = JSON.parse(bodyTexto);
+        bodyExibicao = JSON.stringify(json, null, 2);
+      } catch (_) {
+      }
+
+      meta.textContent = `URL da consulta: ${url} | Status: ${resposta.status} ${resposta.statusText}`;
+      resultado.textContent = bodyExibicao || '(Resposta sem conteúdo no body)';
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      erro.style.display = 'none';
+      erro.textContent = '';
+      resultado.textContent = 'Consultando...';
+
+      const codMunicipio = document.getElementById('codMunicipio').value.trim();
+      const inscricaoFederal = document.getElementById('inscricaoFederal').value.trim();
+      const url = montarUrl(codMunicipio, inscricaoFederal);
+      meta.textContent = `URL da consulta: ${url}`;
+
+      btn.disabled = true;
+      try {
+        await consultar(url);
+      } catch (e) {
+        erro.style.display = 'block';
+        erro.textContent = `Erro ao consultar: ${e.message}. Se abrir como arquivo local e ocorrer CORS, rode por um servidor local (ex.: Live Server).`;
+        resultado.textContent = 'Falha na consulta.';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
