@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -135,7 +135,27 @@
         <input id="inscricaoFederal" name="inscricaoFederal" value="00000000000000" required />
       </div>
 
-      <button id="consultarBtn" type="submit">Consultar</button>
+      <div class="field">
+        <label>Ações</label>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button
+            id="consultarBtnAdn"
+            class="consulta-btn"
+            type="button"
+            data-base-url="https://adn.nfse.gov.br/cnc/consulta/cad/"
+          >
+            Consultar Produção ADN
+          </button>
+          <button
+            id="consultarBtnRestrita"
+            class="consulta-btn"
+            type="button"
+            data-base-url="https://adn.producaorestrita.nfse.gov.br/cnc/consulta/cad/"
+          >
+            Consultar Produção Restrita
+          </button>
+        </div>
+      </div>
     </form>
 
     <div class="meta" id="meta">URL da consulta: -</div>
@@ -145,13 +165,13 @@
 
   <script>
     const form = document.getElementById('consultaForm');
-    const btn = document.getElementById('consultarBtn');
+    const botoesConsulta = Array.from(document.querySelectorAll('.consulta-btn'));
     const meta = document.getElementById('meta');
     const erro = document.getElementById('erro');
     const resultado = document.getElementById('resultado');
+    const baseUrlAdn = 'https://adn.nfse.gov.br/cnc/consulta/cad/';
 
-    function montarUrl(codMunicipio, inscricaoFederal) {
-      const base = 'https://adn.nfse.gov.br/cnc/consulta/cad/';
+    function montarUrl(base, codMunicipio, inscricaoFederal) {
       const params = new URLSearchParams({ codMunicipio, inscricaoFederal });
       return `${base}?${params.toString()}`;
     }
@@ -171,19 +191,18 @@
       resultado.textContent = bodyExibicao || '(Resposta sem conteúdo no body)';
     }
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
+    async function executarConsulta(baseUrl) {
+      if (!form.reportValidity()) return;
       erro.style.display = 'none';
       erro.textContent = '';
       resultado.textContent = 'Consultando...';
 
       const codMunicipio = document.getElementById('codMunicipio').value.trim();
       const inscricaoFederal = document.getElementById('inscricaoFederal').value.trim();
-      const url = montarUrl(codMunicipio, inscricaoFederal);
+      const url = montarUrl(baseUrl, codMunicipio, inscricaoFederal);
       meta.textContent = `URL da consulta: ${url}`;
 
-      btn.disabled = true;
+      botoesConsulta.forEach((botao) => { botao.disabled = true; });
       try {
         await consultar(url);
       } catch (e) {
@@ -191,10 +210,20 @@
         erro.textContent = `Erro ao consultar: ${e.message}. Se abrir como arquivo local e ocorrer CORS, rode por um servidor local (ex.: Live Server).`;
         resultado.textContent = 'Falha na consulta.';
       } finally {
-        btn.disabled = false;
+        botoesConsulta.forEach((botao) => { botao.disabled = false; });
       }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      await executarConsulta(baseUrlAdn);
+    });
+
+    botoesConsulta.forEach((botao) => {
+      botao.addEventListener('click', async () => {
+        await executarConsulta(botao.dataset.baseUrl);
+      });
     });
   </script>
 </body>
 </html>
-
