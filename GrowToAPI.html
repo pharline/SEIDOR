@@ -1,0 +1,353 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NFSe Mapping Doc</title>
+<style>
+:root{--bg:#f3f8fa;--panel:#fff;--line:#d2dfe6;--ink:#173041;--muted:#516878;--brand:#005f73;--brand2:#0a9396;--ok:#18794e;--warn:#9a5d00;--danger:#9b2c2c;--mono:"Consolas","Courier New",monospace;--sans:"Segoe UI","Tahoma",sans-serif;--r:12px;--s:0 8px 22px rgba(16,35,48,.1)}
+*{box-sizing:border-box}body{margin:0;font-family:var(--sans);color:var(--ink);background:radial-gradient(circle at 0% 0%,rgba(10,147,150,.18),transparent 25%),radial-gradient(circle at 100% 0%,rgba(238,155,0,.14),transparent 25%),linear-gradient(#f7fcfd,#eef5f8);min-height:100vh}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(110deg,#003845,#005f73 55%,#0a9396);color:#eefcff;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.25)}
+header h1{margin:0;font-size:clamp(1.1rem,1.7vw,1.4rem)}header p{margin:5px 0 0;font-size:.9rem;color:#d9f7fb}
+.wrap{max-width:1700px;margin:0 auto;padding:12px;display:grid;grid-template-columns:300px 1fr 350px;gap:10px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--s)}
+.left{position:sticky;top:82px;height:calc(100vh - 94px);display:flex;flex-direction:column;overflow:hidden}
+.left .head{padding:12px;border-bottom:1px solid var(--line);background:#f6fcff}
+.lbl{display:block;font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin:0 0 6px}
+.mode{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:9px}
+.mode button{border:1px solid #bdd0da;background:#fff;border-radius:9px;padding:8px;cursor:pointer;color:#1d4458}
+.mode button.active{background:#dff1f4;border-color:#87c6cf;font-weight:600}
+input[type=text]{width:100%;border:1px solid #bfd1dc;border-radius:9px;padding:9px;font-size:.9rem;margin-bottom:9px}
+input[type=text]:focus{outline:2px solid #90d4de;border-color:#70b8c4}
+.filters{display:grid;gap:5px}.filters label{font-size:.85rem;color:#234457;display:flex;gap:7px;align-items:center}
+.groups{padding:10px;overflow:auto;display:grid;gap:6px}
+.gbtn{display:flex;justify-content:space-between;gap:8px;border:1px solid #c8d7e0;background:#fff;border-radius:9px;padding:8px;cursor:pointer;text-align:left;font-size:.85rem;color:#1b3444}
+.gbtn.active{background:#e4f4f8;border-color:#94c7d0;font-weight:600;color:#104b58}.cnt{background:#0a9396;color:#fff;border-radius:999px;padding:1px 7px;font-size:.74rem}
+.mid{padding:10px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:9px}
+.sc{border:1px solid var(--line);border-radius:10px;padding:8px;background:#f7fcff}.sc .k{font-size:.72rem;color:#577082;text-transform:uppercase}.sc .v{font-size:1.12rem;font-weight:700;color:#164157}
+.bar{height:6px;background:#d8e5ec;border-radius:999px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#0a9396,#94d2bd)}
+.view{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;border:1px solid var(--line);border-radius:10px;background:#f5fbfd;padding:9px;margin-bottom:9px}
+.pill{font-size:.75rem;border:1px solid #bdd2de;border-radius:999px;background:#e7f5fb;padding:3px 8px;color:#1a4862}
+.tablebox{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.85rem}thead th{position:sticky;top:0;background:#ebf4f8;color:#24485d;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:8px;text-align:left;border-bottom:1px solid var(--line)}
+tr.row{border-top:1px solid #e1ebf1;cursor:pointer}tr.row:hover{background:#f6fbff}tr.row.sel{background:#e5f4f8}td{padding:8px;vertical-align:top;color:#1d3443}
+code{font-family:var(--mono);background:#eef4f7;border-radius:5px;padding:2px 5px;word-break:break-word}
+.exp{width:22px;height:22px;border:1px solid #b8ccd8;border-radius:6px;background:#fff;color:#1b4760;cursor:pointer;margin-right:6px}
+.badge{display:inline-block;border-radius:999px;padding:2px 7px;font-size:.72rem;border:1px solid;white-space:nowrap}
+.t-direto{background:#e5f4ef;border-color:#b8e0d0;color:var(--ok)}.t-constante{background:#edf2f5;border-color:#d2dbe2;color:#374956}.t-fallback{background:#fff1dd;border-color:#ffd7a4;color:var(--warn)}.t-condicional{background:#ebefff;border-color:#cbd6ff;color:#38519b}.t-funcao{background:#e8f6ff;border-color:#bce2f8;color:#1a5377}.t-externo{background:#fdeaea;border-color:#f6c4c4;color:var(--danger)}
+.r-sim{background:#e5f8ef;border:1px solid #bce5cf;color:#0e6545}.r-nao{background:#f2f6f8;border:1px solid #d7e1e8;color:#445a68}.r-condicional{background:#ecf0ff;border:1px solid #d0d9ff;color:#3a4f97}
+.copy{border:1px solid #b8cddd;border-radius:8px;background:#fff;padding:5px 7px;font-size:.75rem;color:#1d445a;cursor:pointer}
+tr.det{background:#f8fcff;border-top:1px dashed #d4e2ea}tr.det.hide{display:none}.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.db{border:1px solid #d8e5ec;border-radius:8px;padding:7px;background:#fff;font-size:.82rem}.db b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#52697a;margin-bottom:4px}
+.right{position:sticky;top:82px;height:calc(100vh - 94px);overflow:auto;padding:10px;background:linear-gradient(#fff,#f7fcff)}.right h2{margin:2px 0 8px;font-size:1rem}.meta{display:grid;gap:7px}.line{border:1px solid #d6e4ec;border-radius:8px;padding:7px;background:#fff}.line b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#536a7b;margin-bottom:4px}
+pre{margin:0;padding:8px;border-radius:7px;border:1px solid #d5e1ea;background:#10202c;color:#e1f2ff;font-family:var(--mono);font-size:.78rem;white-space:pre-wrap;word-break:break-word}
+.empty{border:1px dashed #b9cdd9;border-radius:9px;background:#f7fbfd;padding:9px;color:#496173}.foot{text-align:center;color:#51697a;font-size:.8rem;padding:8px 0 14px}mark{background:#ffe3a2;color:#452a00;border-radius:3px;padding:0 1px}
+.rb-modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:14px}.rb-modal.hide{display:none}.rb-backdrop{position:absolute;inset:0;background:rgba(9,20,29,.55)}.rb-card{position:relative;z-index:1;width:min(1400px,96vw);max-height:90vh;display:grid;grid-template-rows:auto auto 1fr;overflow:hidden}.rb-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:10px;border-bottom:1px solid var(--line);background:#f5fbff}.rb-info{font-size:.82rem;color:#3e5b6d;margin-top:3px}.rb-tools{padding:10px;border-bottom:1px solid var(--line);background:#fcfeff;display:grid;grid-template-columns:minmax(300px,1fr) 220px;gap:8px}.rb-tools input{margin:0}.rb-tools select{border:1px solid #bfd1dc;border-radius:9px;padding:9px;font-size:.88rem;background:#fff;color:#1c4055}.rb-tablebox{overflow:auto}#rbBody tr td{font-size:.82rem}
+@media(max-width:1320px){.wrap{grid-template-columns:300px 1fr}.right{grid-column:1/-1;position:static;height:auto}.left{position:static;height:auto}}
+@media(max-width:920px){.wrap{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.dgrid{grid-template-columns:1fr}thead{display:none}table,tbody,tr,td{display:block;width:100%}tr.row{padding:8px}td::before{display:block;font-size:.67rem;text-transform:uppercase;letter-spacing:.05em;color:#617786;margin-bottom:2px}td.c-tag::before{content:"Tag"}td.c-src::before{content:"Origem"}td.c-typ::before{content:"Tipo"}td.c-rule::before{content:"Regra"}td.c-req::before{content:"Obrigatorio"}td.c-act::before{content:"Acoes"}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Documentacao NFSe - GROW To API</h1>
+  <p>Por estrutura/funcoes, filtros, expanso de regra</p>
+</header>
+<div class="wrap">
+  <aside class="panel left">
+    <div class="head">
+      <span class="lbl">Modo</span>
+      <div class="mode" id="modeSwitch">
+        <button data-mode="structure" class="active" type="button">Por Estrutura</button>
+        <button data-mode="function" type="button">Por Funcao</button>
+        <button class="copy" id="btnReqBody" type="button">Tags RequestBody</button>
+      </div>
+      <label class="lbl" for="search">Busca</label>
+      <input id="search" type="text" placeholder="erpId, documentNumber, iss, tomador" />
+      <span class="lbl">Filtros</span>
+      <div class="filters">
+        <label><input type="checkbox" id="fReq" /> Somente obrigatorios</label>
+        <label><input type="checkbox" id="fFb" /> Somente fallback</label>
+        <label><input type="checkbox" id="fTax" /> Somente impostos</label>
+        <label><input type="checkbox" id="fCond" /> Somente condicionais</label>
+      </div>
+    </div>
+    <div class="groups" id="groups"></div>
+  </aside>
+
+  <main class="panel mid">
+    <section class="stats" id="stats"></section>
+    <section class="view">
+      <strong id="gTitle">Grupo</strong>
+      <span class="pill" id="gCount">0 tags</span>
+    </section>
+    <section class="tablebox">
+      <table>
+        <thead><tr><th>Tag final</th><th>Origem</th><th>Tipo</th><th>Regra</th><th>Obrig.</th><th>Acoes</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <aside class="panel right">
+    <h2>Detalhe da tag</h2>
+    <div id="detail" class="empty">Selecione uma tag para ver origem exata, transformacao, fallback e exemplos.</div>
+  </aside>
+</div>
+
+<div class="rb-modal hide" id="rbModal" aria-hidden="true">
+  <div class="rb-backdrop" data-rb-close></div>
+  <section class="rb-card panel">
+    <header class="rb-head">
+      <div>
+        <strong>Tags do requestBody.txt</strong>
+        <div id="rbInfo" class="rb-info">0 tag(s)</div>
+      </div>
+      <button class="copy" id="rbClose" type="button">Fechar</button>
+    </header>
+    <div class="rb-tools">
+      <input id="rbSearch" type="text" placeholder="Buscar tag do requestBody (ex: rps.servico.valores.iss)" />
+      <select id="rbStatus" aria-label="Filtro de status">
+        <option value="all">Status: Todos</option>
+        <option value="ref">Status: Referencia</option>
+        <option value="noref">Status: Sem referencia</option>
+      </select>
+    </div>
+    <div class="rb-tablebox">
+      <table>
+        <thead><tr><th>Tag requestBody</th><th>Status</th><th>Referencia estrutura</th><th>Origem</th><th>Grupo/Funcao</th><th>Acoes</th></tr></thead>
+        <tbody id="rbBody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+<div class="foot">mapPublicToNFSe 1.txt -> visual data-driven</div>
+
+<script>
+const M=[];
+const add=(o)=>M.push(Object.assign({id:"",o:"",s:"",r:"",t:"",fb:"-",d:"-",n:"-",c:"-",p:"-",req:"nao",hf:false,tax:false,cond:false,ok:true,gp:"Geral",gf:"Geral",ty:"direto",ei:"-",eo:"-"},o));
+
+// Raiz NFSe
+[
+ ["nfse.branchId","payload?.header?.extension?.branchId","Mapeamento direto.","branchId = payload.header.extension.branchId","sim","NFSe","mapPublicEmitPayloadToNFSe","direto"],
+ ["nfse.isForceProductionEnv","payload?.header?.extension?.isForceProductionEnv","Mapeamento direto.","isForceProductionEnv = payload.header.extension.isForceProductionEnv","sim","NFSe","mapPublicEmitPayloadToNFSe","direto"],
+ ["nfse.erpId","payload?.header?.documentNumber","Mapeamento direto do documento ERP.","erpId = payload.header.documentNumber","sim","NFSe","mapPublicEmitPayloadToNFSe","direto"],
+ ["nfse.rps","mapIdentificacao + mapServico + mapTomador","Objeto composto.","rps = { identificacao, servico, tomador }","sim","NFSe","mapPublicEmitPayloadToNFSe","funcao"]
+].forEach(x=>add({id:x[0],o:x[0],s:x[1],r:x[2],t:x[3],req:x[4],gp:x[5],gf:x[6],ty:x[7]}));
+add({id:"nfse.emails",o:"nfse.emails",s:"getEmailSend(payload)",r:"[tomador.extension.emails] se existir, senao []",t:"emails = tomador.extension.emails ? [emails] : []",req:"sim",hf:true,fb:"[]",d:"[]",gp:"NFSe",gf:"getEmailSend",ty:"fallback"});
+add({id:"nfse.event.uuid",o:"nfse.(campos addUuidEvent)",s:"addUuidEvent(nfse,payload?.uuid,MassEvents.emit)",r:"Campos de evento adicionados fora do arquivo base.",t:"nfse = addUuidEvent(...)",req:"condicional",cond:true,ok:false,gp:"NFSe",gf:"addUuidEvent",ty:"externo",n:"Estrutura depende da implementacao externa."});
+
+// Identificacao
+[
+ ["serie","payload?.header?.documentSeries","Direto","serie = payload.header.documentSeries","sim","direto"],
+ ["numero","payload?.header?.documentProvisoryNumber","Direto","numero = payload.header.documentProvisoryNumber","sim","direto"],
+ ["competencia","getDateFormatted(payload?.header?.postDate)","YYYYMMDD -> YYYY-MM-DD","competencia = getDateFormatted(postDate)","sim","funcao"],
+ ["dataEmissao","formatDate(payload?.header?.postDate,payload?.header?.issueTime)","YYYY-MM-DDTHH:MM:SS","dataEmissao = formatDate(postDate, issueTime)","sim","funcao"],
+ ["naturezaOperacao","getNaturezaOperacao(payload?.authorization?.items?.[0])","ISS.taxSituation do item 0","naturezaOperacao = resolveTax(item,['ISS'])?.taxSituation","condicional","condicional"],
+ ["tipoRps","constante","Valor fixo","tipoRps = '1'","sim","constante"],
+ ["incentivadorCultural","constante","Valor fixo","incentivadorCultural = '2'","sim","constante"],
+ ["sequencia","constante","Valor fixo","sequencia = '1'","sim","constante"],
+ ["regimeEspecialTributacao","payload?.header?.extension?.regime_especial_tributacao","So se definido","spreadIfDefined('regimeEspecialTributacao', value)","condicional","condicional"],
+ ["tpOperacao","payload?.authorization?.items?.[0]?.extension?.tpOperacao","So se definido","spreadIfDefined('tpOperacao', value)","condicional","condicional"]
+].forEach(x=>add({id:`nfse.rps.identificacao.${x[0]}`,o:`nfse.rps.identificacao.${x[0]}`,s:x[1],r:x[2],t:x[3],req:x[4],cond:x[4]==="condicional",gp:"NFSe > RPS > Identificacao",gf:x[0].includes("dataEmissao")?"formatDate":"mapIdentificacao",ty:x[5]}));
+
+// Servico
+[
+ ["discriminacao","payload?.authorization?.items?.[0]?.itemDescription","Descricao do item 0","discriminacao = item.itemDescription","sim","direto"],
+ ["itemListaServico","getItemListaServico(item)","Prioriza extension.codTribNac; fallback ISS.classificationCode","item.extension.codTribNac ?? ISS.classificationCode","condicional","fallback",true,"ISS.classificationCode"],
+ ["quantidade","payload?.authorization?.items?.[0]?.quantity","Direto","quantidade = item.quantity","sim","direto"],
+ ["codigoNbs","item?.service?.nomenclatureServicesCode","So se definido","spreadIfDefined('codigoNbs', value)","condicional","condicional"],
+ ["valorUnitario","item?.values?.netUnitPrice","Direto","valorUnitario = item.values.netUnitPrice","sim","direto"],
+ ["descricaoCnae","payload?.authorization?.partners?.[0]?.economicActivityCode","Primeiro partner","descricaoCnae = partners[0].economicActivityCode","condicional","condicional"],
+ ["codigoMunicipioIncidencia","getMunicipioIncidencia(item)","ISSS/ISSP.taxLocation somente digitos","codigoMunicipioIncidencia = (taxLocation||'').replace(/\\D/g,'')","condicional","funcao"],
+ ["codigoTributacaoMunicipio","item?.extension?.codigoTributacaoMunicipio","Fallback para ISSS/ISSP.classificationCode","codigoTributacaoMunicipio = ext ?? fallback","condicional","fallback",true,"getCodigoTributacaoMunicipio(item)"],
+ ["codigoServico","codigoTributacaoMunicipio","Replica valor","codigoServico = codigoTributacaoMunicipio","condicional","funcao"],
+ ["codigoAtividade","item?.extension?.codigoAtividade","So se definido","spreadIfDefined('codigoAtividade', value)","condicional","condicional"],
+ ["cnae","buildCnae(payload)","item.extension.cnae -> issuer.economicActivityCode -> issuer.extension.economicActivityCode","cnae = itemCnae ?? issuerCode ?? issuerExtCode","condicional","fallback",true,"issuer.economicActivityCode / issuer.extension.economicActivityCode"]
+].forEach(x=>add({id:`nfse.rps.servico.${x[0]}`,o:`nfse.rps.servico.${x[0]}`,s:x[1],r:x[2],t:x[3],req:x[4],cond:x[4]==="condicional",hf:!!x[6],fb:x[7]||"-",gp:"NFSe > RPS > Servico",gf:"mapServico",ty:x[5]}));
+
+// Valores principais
+[
+ ["totalServicos","payload?.authorization?.total?.itemsValue","Direto","totalServicos = authorization.total.itemsValue","sim","direto"],
+ ["totalDeducoes","constante","Valor fixo","totalDeducoes = 0","sim","constante",false,"0"],
+ ["valorLiquido","payload?.authorization?.total?.extension?.valorLiquido || payload?.authorization?.total?.itemsValue","Fallback para itemsValue","valorLiquido = ext.valorLiquido || itemsValue","sim","fallback",true,"payload.authorization.total.itemsValue"],
+ ["outrasRetencoes","constante","Valor fixo","outrasRetencoes = 0","sim","constante",false,"0"],
+ ["pisCofins.baseCalculo","pisTax?.baseCalculo ?? cofinsTax?.baseCalculo","Tag entra se houver base em PIS ou COFINS","baseCalculo = pis.baseCalculo ?? cofins.baseCalculo","condicional","fallback",true,"cofinsTax.baseCalculo"]
+].forEach(x=>add({id:`nfse.rps.servico.valores.${x[0]}`,o:`nfse.rps.servico.valores.${x[0]}`,s:x[1],r:x[2],t:x[3],req:x[4],cond:x[4]==="condicional",ty:x[5],hf:!!x[6],fb:x[7]||"-",d:x[8]||"-",gp:"NFSe > RPS > Servico > Valores",gf:"mapServico",tax:false}));
+
+// Gerador de impostos
+const taxCfg=[
+ {k:"iss",fn:"mapGenericTax",root:"mapGenericTax(item,{prefixes:['ISS'],cst:'01',exigibilidadeIss:'1',includeRetido:true})",rule:"Prefixo ISS com prioridade para retido",t:"funcao",kind:"generic",cst:"01",ret:true,exi:true},
+ {k:"inss",fn:"mapGenericTax",root:"mapGenericTax(item,{prefixes:['IN']})",rule:"Prefixo IN",t:"funcao",kind:"generic",ret:false,exi:false},
+ {k:"pis",fn:"handlePis",root:"handlePis(flattenedTaxes) -> buildTaxByGroupFromTaxes",rule:"Prioriza WHPI, senao PIS",t:"funcao",kind:"group",cst:"01*"},
+ {k:"cofins",fn:"handleCofins",root:"handleCofins(flattenedTaxes) -> buildTaxByGroupFromTaxes",rule:"Prioriza WHCO, senao COFI",t:"funcao",kind:"group"},
+ {k:"ir",fn:"handleIr",root:"handleIr(flattenedTaxes) -> buildTaxByGroupFromTaxes",rule:"Prioriza WHIR, senao IR",t:"funcao",kind:"group"},
+ {k:"csll",fn:"handleCsll",root:"handleCsll(flattenedTaxes) -> buildTaxByGroupFromTaxes",rule:"Prioriza WHCS, senao CS (cst='01')",t:"funcao",kind:"group",cst:"01"}
+];
+
+for(const x of taxCfg){
+  const b=`nfse.rps.servico.valores.${x.k}`;
+  const gp=`NFSe > RPS > Servico > Valores > Impostos > ${x.k.toUpperCase()}`;
+  add({id:b,o:b,s:x.root,r:x.rule,t:x.root,req:"condicional",cond:true,tax:true,gp,gf:x.fn,ty:x.t,ei:`taxes com ${x.k.toUpperCase()}`,eo:`${b} = {...}`});
+  if(x.kind==="generic"){
+    [["baseCalculo","tax.baseValue || '0'","Base do imposto",true,"'0'","fallback"],["aliquota","tax.taxRate || '0'","Aliquota",true,"'0'","fallback"],["valor","tax.taxValue || '0'","Quando nao retido",true,"'0'","condicional"],["valorRetido","tax.taxValue || '0'","Quando retido",true,"'0'","condicional"]].forEach(f=>add({id:`${b}.${f[0]}`,o:`${b}.${f[0]}`,s:f[1],r:f[2],t:f[2],req:"condicional",cond:true,tax:true,hf:f[3],fb:f[4],gp,gf:x.fn,ty:f[5]}));
+    if(x.cst)add({id:`${b}.cst`,o:`${b}.cst`,s:"options.cst",r:"CST informado na chamada",t:`cst='${x.cst}'`,req:"sim",tax:true,gp,gf:x.fn,ty:"constante"});
+    if(x.exi)add({id:`${b}.exigibilidadeIss`,o:`${b}.exigibilidadeIss`,s:"tax.taxSituation",r:"So quando exigibilidadeIss habilitado",t:"exigibilidadeIss = tax.taxSituation",req:"condicional",cond:true,tax:true,gp,gf:x.fn,ty:"condicional"});
+    if(x.ret){
+      add({id:`${b}.retido`,o:`${b}.retido`,s:"tax.withhold === true || tax.withhold === 'true'",r:"Flag de retencao",t:"retido = isWithheldTax(tax)",req:"condicional",cond:true,tax:true,gp,gf:x.fn,ty:"condicional"});
+      add({id:`${b}.responsavel`,o:`${b}.responsavel`,s:"constante condicional",r:"Responsavel='1' quando retido",t:"responsavel = '1'",req:"condicional",cond:true,tax:true,gp,gf:x.fn,ty:"constante"});
+    }
+  } else {
+    [["baseCalculo","soma tax.baseValue","Acumulado com toNumber","funcao"],["valor","soma tax.taxValue","Acumulado com toNumber","funcao"],["aliquota","refTax.taxRate ?? '0'","Aliquota da tax de referencia","fallback"]].forEach(f=>add({id:`${b}.${f[0]}`,o:`${b}.${f[0]}`,s:f[1],r:f[2],t:f[2],req:"condicional",cond:true,tax:true,hf:f[0]==="aliquota",fb:f[0]==="aliquota"?"'0'":"-",gp,gf:x.fn,ty:f[3]}));
+    if(x.cst)add({id:`${b}.cst`,o:`${b}.cst`,s:"options.cst",r:x.cst==="01*"?"No PIS depende de grupo WHPI":"CST fixo no handler",t:x.cst==="01*"?"cst='01' quando WHPI":"cst='01'",req:x.cst==="01*"?"condicional":"sim",cond:x.cst==="01*",tax:true,gp,gf:x.fn,ty:x.cst==="01*"?"condicional":"constante"});
+  }
+}
+
+// Tomador + endereco + contato
+[
+ ["nfse.rps.tomador","mapTomador(payload)","Objeto tomador a partir de partnerTaker","tomador = getTomadorInPartnersArray(...)","sim","NFSe > RPS > Tomador","mapTomador","funcao"],
+ ["nfse.rps.tomador.cnpj","partnerTaker (valido CNPJ)","So quando partnerTaker for CNPJ valido","tomador.cnpj = partnerTaker","condicional","NFSe > RPS > Tomador","getTomadorInPartnersArray","condicional"],
+ ["nfse.rps.tomador.cpf","partnerTaker (valido CPF)","So quando partnerTaker for CPF valido","tomador.cpf = partnerTaker","condicional","NFSe > RPS > Tomador","getTomadorInPartnersArray","condicional"],
+ ["nfse.rps.tomador.razaoSocial","tomador?.name","Direto","razaoSocial = tomador.name","sim","NFSe > RPS > Tomador","mapTomador","direto"],
+ ["nfse.rps.tomador.nomeFantasia","tomador?.name","Direto","nomeFantasia = tomador.name","sim","NFSe > RPS > Tomador","mapTomador","direto"],
+ ["nfse.rps.tomador.tipo","getTipoTomador(tomador,issuer)","5 estrangeiro;2 CPF;1 sem CNPJ;3/4 cidade","tipo = regra por pais/documento/cidade","condicional","NFSe > RPS > Tomador","getTipoTomador","funcao"],
+ ["nfse.rps.tomador.inscricaoMunicipal","tomador?.municipalRegistration","So se definido","spreadIfDefined('inscricaoMunicipal', value)","condicional","NFSe > RPS > Tomador","spreadIfDefined","condicional"],
+ ["nfse.rps.tomador.inscricaoEstadual","tomador?.stateRegistration","So se definido","spreadIfDefined('inscricaoEstadual', value)","condicional","NFSe > RPS > Tomador","spreadIfDefined","condicional"],
+ ["nfse.rps.tomador.endereco","mapEndereco(tomador.address)","Objeto de endereco completo","endereco = mapEndereco(address)","sim","NFSe > RPS > Tomador > Endereco","mapEndereco","funcao"],
+ ["nfse.rps.tomador.contato","getContatoTomador(phone,email)","So se telefone ou email existir","contato = { telefone, email }","condicional","NFSe > RPS > Tomador > Contato","getContatoTomador","condicional"],
+ ["nfse.rps.tomador.contato.telefone","tomador?.address?.phone","Telefone do tomador","contato.telefone = phone","condicional","NFSe > RPS > Tomador > Contato","getContatoTomador","condicional"],
+ ["nfse.rps.tomador.contato.email","tomador?.address?.email","Email do tomador","contato.email = email","condicional","NFSe > RPS > Tomador > Contato","getContatoTomador","condicional"]
+].forEach(x=>add({id:x[0],o:x[0],s:x[1],r:x[2],t:x[3],req:x[4],cond:x[4]==="condicional",gp:x[5],gf:x[6],ty:x[7]}));
+
+[
+ ["logradouro","address?.street","Direto","logradouro = address.street","sim","direto"],
+ ["numero","address?.number","Direto","numero = address.number","sim","direto"],
+ ["complemento","address?.complement","So se definido","spreadIfDefined('complemento', value)","condicional","condicional"],
+ ["bairro","address?.district","So se definido","spreadIfDefined('bairro', value)","condicional","condicional"],
+ ["codigoMunicipio","address?.cityCode","Direto","codigoMunicipio = address.cityCode","sim","direto"],
+ ["nomeMunicipio","address?.city","Direto","nomeMunicipio = address.city","sim","direto"],
+ ["uf","address?.region","Direto","uf = address.region","sim","direto"],
+ ["cep","address?.postalCode","Direto","cep = address.postalCode","sim","direto"],
+ ["nomePais","address?.country","Direto","nomePais = address.country","sim","direto"],
+ ["codigoPais","String(+address?.extension?.countryCodeBc)","Remove zeros a esquerda; erro se ausente","codigoPais = String(+countryCodeBc)","sim","funcao"],
+ ["tipoLogradouro","address?.street?.split(' ')[0]","Primeira palavra do logradouro","tipoLogradouro = street.split(' ')[0]","condicional","condicional"]
+].forEach(x=>add({id:`nfse.rps.tomador.endereco.${x[0]}`,o:`nfse.rps.tomador.endereco.${x[0]}`,s:x[1],r:x[2],t:x[3],req:x[4],cond:x[4]==="condicional",gp:"NFSe > RPS > Tomador > Endereco",gf:x[0]==="codigoPais"?"getCodigoPais":"mapEndereco",ty:x[5]}));
+
+// Validacoes
+[
+ ["(validacao) authorization.partners","getTomadorInPartnersArray(partners)","Erro se array invalido/vazio","if (!Array.isArray(partners)||!partners.length) throw Error('Invalid partners data')","sim","getTomadorInPartnersArray"],
+ ["(validacao) rps.tomador","mapTomador(payload)","Erro se tomador nao encontrado","if (!tomador) throw Error('Tomador not found in partners')","sim","mapTomador"],
+ ["(validacao) codigoPais","getCodigoPais(address)","Erro se countryCodeBc ausente","if (!countryCodeBc) throw Error('CountryCodeBc is required')","sim","getCodigoPais"],
+ ["(validacao) dataEmissao","formatDate(postDate, issueTime)","TypeError se postDate/issueTime ausentes","if (!postDate || !issueTime) throw TypeError(...)","sim","formatDate"]
+].forEach(x=>add({id:x[0],o:x[0],s:x[1],r:x[2],t:x[3],req:x[4],gp:"Validacoes e Erros",gf:x[5],ty:"funcao"}));
+
+const RB_PATHS=["_id","branchId","customFields","emails","emails[]","erpId","isForceProductionEnv","numeroLote","rps","rps.construcaoCivil","rps.construcaoCivil.alvara","rps.construcaoCivil.alvara.ano","rps.construcaoCivil.alvara.numero","rps.construcaoCivil.codigoSerieArt","rps.construcaoCivil.codObra","rps.construcaoCivil.dataEmissaoArt","rps.construcaoCivil.endereco","rps.construcaoCivil.endereco.bairro","rps.construcaoCivil.endereco.cep","rps.construcaoCivil.endereco.codigoMunicipio","rps.construcaoCivil.endereco.codigoPais","rps.construcaoCivil.endereco.complemento","rps.construcaoCivil.endereco.cUf","rps.construcaoCivil.endereco.enderecoExterior","rps.construcaoCivil.endereco.logradouro","rps.construcaoCivil.endereco.nomeMunicipio","rps.construcaoCivil.endereco.nomePais","rps.construcaoCivil.endereco.nomeUf","rps.construcaoCivil.endereco.numero","rps.construcaoCivil.endereco.pontoReferencia","rps.construcaoCivil.endereco.sedetecMunicipio","rps.construcaoCivil.endereco.siafiMunicipio","rps.construcaoCivil.endereco.tipoLogradouro","rps.construcaoCivil.endereco.tpBairro","rps.construcaoCivil.endereco.uf","rps.construcaoCivil.fornecedores","rps.construcaoCivil.fornecedores[]","rps.construcaoCivil.fornecedores[].cnpj","rps.construcaoCivil.fornecedores[].cpf","rps.construcaoCivil.fornecedores[].materiais","rps.construcaoCivil.fornecedores[].materiais[]","rps.construcaoCivil.fornecedores[].materiais[].descicaoUnidadeMedida","rps.construcaoCivil.fornecedores[].materiais[].descricao","rps.construcaoCivil.fornecedores[].materiais[].id","rps.construcaoCivil.fornecedores[].materiais[].quantidade","rps.construcaoCivil.fornecedores[].materiais[].unidadeMedida","rps.construcaoCivil.fornecedores[].materiais[].valorTotal","rps.construcaoCivil.fornecedores[].notaFiscal","rps.construcaoCivil.fornecedores[].notaFiscal.dataEmissao","rps.construcaoCivil.fornecedores[].notaFiscal.numero","rps.construcaoCivil.fornecedores[].razaoSocial","rps.construcaoCivil.localBairro","rps.construcaoCivil.localLote","rps.construcaoCivil.localQuadra","rps.construcaoCivil.matriculaCei","rps.construcaoCivil.numeroArt","rps.construcaoCivil.numeroCdc","rps.construcaoCivil.numeroCei","rps.construcaoCivil.numeroMatri","rps.construcaoCivil.numeroProj","rps.IBSCBS","rps.IBSCBS.cIndOp","rps.IBSCBS.dest","rps.IBSCBS.dest.CAEPF","rps.IBSCBS.dest.cNaoNIF","rps.IBSCBS.dest.CNPJ","rps.IBSCBS.dest.CPF","rps.IBSCBS.dest.email","rps.IBSCBS.dest.end","rps.IBSCBS.dest.end.endExt","rps.IBSCBS.dest.end.endExt.cEndPost","rps.IBSCBS.dest.end.endExt.cPais","rps.IBSCBS.dest.end.endExt.xCidade","rps.IBSCBS.dest.end.endNac","rps.IBSCBS.dest.end.endNac.cep","rps.IBSCBS.dest.end.endNac.cMun","rps.IBSCBS.dest.end.endNac.cUF","rps.IBSCBS.dest.end.nro","rps.IBSCBS.dest.end.xBairro","rps.IBSCBS.dest.end.xCpl","rps.IBSCBS.dest.end.xEstProvReg","rps.IBSCBS.dest.end.xLgr","rps.IBSCBS.dest.fone","rps.IBSCBS.dest.NIF","rps.IBSCBS.dest.xNome","rps.IBSCBS.finNFSe","rps.IBSCBS.gRefNFSe","rps.IBSCBS.gRefNFSe.refNFSe","rps.IBSCBS.imovel","rps.IBSCBS.imovel.cCIB","rps.IBSCBS.imovel.end","rps.IBSCBS.imovel.end.CEP","rps.IBSCBS.imovel.end.endExt","rps.IBSCBS.imovel.end.endExt.cEndPost","rps.IBSCBS.imovel.end.endExt.xCidade","rps.IBSCBS.imovel.end.endExt.xEstProvReg","rps.IBSCBS.imovel.end.nro","rps.IBSCBS.imovel.end.xBairro","rps.IBSCBS.imovel.end.xCpl","rps.IBSCBS.imovel.end.xLgr","rps.IBSCBS.imovel.inscImobFisc","rps.IBSCBS.indDest","rps.IBSCBS.indFinal","rps.IBSCBS.servicos","rps.IBSCBS.servicos.cCIB","rps.IBSCBS.servicos.clocalPrestServ","rps.IBSCBS.servicos.cPaisPrestServ","rps.IBSCBS.servicos.indCompraGov","rps.IBSCBS.servicos.modoPrestServ","rps.IBSCBS.total","rps.IBSCBS.total.gCBS","rps.IBSCBS.total.gCBS.aliquotaCreditoPresumido","rps.IBSCBS.total.gCBS.valorTotal","rps.IBSCBS.total.gCBS.valorTotalCreditoPresumido","rps.IBSCBS.total.gCBS.valorTotalCreditoPresumidoSuspensivo","rps.IBSCBS.total.gCBS.valorTotalDevolucaoTributos","rps.IBSCBS.total.gCBS.valorTotalDiferimento","rps.IBSCBS.total.gIBS","rps.IBSCBS.total.gIBS.aliquotaCreditoPresumido","rps.IBSCBS.total.gIBS.gIBSMun","rps.IBSCBS.total.gIBS.gIBSMun.valorTotal","rps.IBSCBS.total.gIBS.gIBSMun.valorTotalDevolucaoTributos","rps.IBSCBS.total.gIBS.gIBSMun.valorTotalDiferimento","rps.IBSCBS.total.gIBS.gIBSUF","rps.IBSCBS.total.gIBS.gIBSUF.valorTotal","rps.IBSCBS.total.gIBS.gIBSUF.valorTotalDevolucaoTributos","rps.IBSCBS.total.gIBS.gIBSUF.valorTotalDiferimento","rps.IBSCBS.total.gIBS.valorTotal","rps.IBSCBS.total.gIBS.valorTotalCreditoPresumido","rps.IBSCBS.total.gIBS.valorTotalCreditoPresumidoSuspensivo","rps.IBSCBS.total.gTribCompraGov","rps.IBSCBS.total.gTribCompraGov.pAliqCBS","rps.IBSCBS.total.gTribCompraGov.pAliqIBSMun","rps.IBSCBS.total.gTribCompraGov.pAliqIBSUF","rps.IBSCBS.total.gTribCompraGov.vTribCBS","rps.IBSCBS.total.gTribCompraGov.vTribIBSMun","rps.IBSCBS.total.gTribCompraGov.vTribIBSUF","rps.IBSCBS.total.tributacaoRegular","rps.IBSCBS.total.tributacaoRegular.codClassificTributariaIBSCBS","rps.IBSCBS.total.tributacaoRegular.codSituacaoTributariaIBSCBS","rps.IBSCBS.total.tributacaoRegular.valorAliquotaCBS","rps.IBSCBS.total.tributacaoRegular.valorAliquotaIBSMun","rps.IBSCBS.total.tributacaoRegular.valorAliquotaIBSUF","rps.IBSCBS.total.tributacaoRegular.valorTributoCBS","rps.IBSCBS.total.tributacaoRegular.valorTributoIBSMun","rps.IBSCBS.total.tributacaoRegular.valorTributoIBSUF","rps.IBSCBS.total.valorTotal","rps.IBSCBS.tpEnteGov","rps.IBSCBS.tpOper","rps.IBSCBS.valores","rps.IBSCBS.valores.baseCalculo","rps.IBSCBS.valores.CBS","rps.IBSCBS.valores.CBS.aliquota","rps.IBSCBS.valores.CBS.aliquotaEfetivaRed","rps.IBSCBS.valores.CBS.percentualAliquotaRed","rps.IBSCBS.valores.CBS.percentualDiferimento","rps.IBSCBS.valores.CBS.valor","rps.IBSCBS.valores.CBS.valorDiferimento","rps.IBSCBS.valores.CBS.valorTributoDevolvido","rps.IBSCBS.valores.gDedRed","rps.IBSCBS.valores.gDedRed[]","rps.IBSCBS.valores.gDedRed[].tpDedRedIBSCBS","rps.IBSCBS.valores.gDedRed[].vlrDedRedIBSCBS","rps.IBSCBS.valores.gDedRed[].xTpDedRedIBSCBS","rps.IBSCBS.valores.gReeRepRes","rps.IBSCBS.valores.gReeRepRes.documentos","rps.IBSCBS.valores.gReeRepRes.documentos[]","rps.IBSCBS.valores.gReeRepRes.documentos[].dFeNacional","rps.IBSCBS.valores.gReeRepRes.documentos[].dFeNacional.chaveDFe","rps.IBSCBS.valores.gReeRepRes.documentos[].dFeNacional.tipoChaveDFe","rps.IBSCBS.valores.gReeRepRes.documentos[].dFeNacional.xTipoChaveDFe","rps.IBSCBS.valores.gReeRepRes.documentos[].docFiscalOutro","rps.IBSCBS.valores.gReeRepRes.documentos[].docFiscalOutro.cMunDocFiscal","rps.IBSCBS.valores.gReeRepRes.documentos[].docFiscalOutro.nDocFiscal","rps.IBSCBS.valores.gReeRepRes.documentos[].docFiscalOutro.xDocFiscal","rps.IBSCBS.valores.gReeRepRes.documentos[].docOutro","rps.IBSCBS.valores.gReeRepRes.documentos[].docOutro.nDoc","rps.IBSCBS.valores.gReeRepRes.documentos[].docOutro.xDoc","rps.IBSCBS.valores.gReeRepRes.documentos[].dtCompDoc","rps.IBSCBS.valores.gReeRepRes.documentos[].dtEmiDoc","rps.IBSCBS.valores.gReeRepRes.documentos[].fornec","rps.IBSCBS.valores.gReeRepRes.documentos[].fornec.cNaoNIF","rps.IBSCBS.valores.gReeRepRes.documentos[].fornec.CNPJ","rps.IBSCBS.valores.gReeRepRes.documentos[].fornec.CPF","rps.IBSCBS.valores.gReeRepRes.documentos[].fornec.NIF","rps.IBSCBS.valores.gReeRepRes.documentos[].fornec.xNome","rps.IBSCBS.valores.gReeRepRes.documentos[].tpReeRepRes","rps.IBSCBS.valores.gReeRepRes.documentos[].vlrReeRepRes","rps.IBSCBS.valores.gReeRepRes.documentos[].xTpReeRepRes","rps.IBSCBS.valores.IBSMun","rps.IBSCBS.valores.IBSMun.aliquota","rps.IBSCBS.valores.IBSMun.aliquotaEfetivaRed","rps.IBSCBS.valores.IBSMun.percentualAliquotaRed","rps.IBSCBS.valores.IBSMun.percentualDiferimento","rps.IBSCBS.valores.IBSMun.valor","rps.IBSCBS.valores.IBSMun.valorDiferimento","rps.IBSCBS.valores.IBSMun.valorTributoDevolvido","rps.IBSCBS.valores.IBSUF","rps.IBSCBS.valores.IBSUF.aliquota","rps.IBSCBS.valores.IBSUF.aliquotaEfetivaRed","rps.IBSCBS.valores.IBSUF.percentualAliquotaRed","rps.IBSCBS.valores.IBSUF.percentualDiferimento","rps.IBSCBS.valores.IBSUF.valor","rps.IBSCBS.valores.IBSUF.valorDiferimento","rps.IBSCBS.valores.IBSUF.valorTributoDevolvido","rps.IBSCBS.valores.trib","rps.IBSCBS.valores.trib.cClassTrib","rps.IBSCBS.valores.trib.cCredPres","rps.IBSCBS.valores.trib.cst","rps.IBSCBS.valores.trib.gDif","rps.IBSCBS.valores.trib.gDif.pDifCBS","rps.IBSCBS.valores.trib.gDif.pDifMun","rps.IBSCBS.valores.trib.gDif.pDifUF","rps.IBSCBS.valores.trib.gEstornoCred","rps.IBSCBS.valores.trib.gEstornoCred.vCBSEstCred","rps.IBSCBS.valores.trib.gEstornoCred.vIBSEstCred","rps.IBSCBS.valores.trib.gPagAntecipado","rps.IBSCBS.valores.trib.gPagAntecipado[]","rps.IBSCBS.valores.trib.gPagAntecipado[].refNFSe","rps.IBSCBS.valores.trib.gTribRegular","rps.IBSCBS.valores.trib.gTribRegular.codClassificTributariaIBSCBS","rps.IBSCBS.valores.trib.gTribRegular.codSituacaoTributariaIBSCBS","rps.IBSCBS.valores.trib.gTribRegular.valorAliquotaCBS","rps.IBSCBS.valores.trib.gTribRegular.valorAliquotaIBSMun","rps.IBSCBS.valores.trib.gTribRegular.valorAliquotaIBSUF","rps.IBSCBS.valores.trib.gTribRegular.valorTributoCBS","rps.IBSCBS.valores.trib.gTribRegular.valorTributoIBSMun","rps.IBSCBS.valores.trib.gTribRegular.valorTributoIBSUF","rps.identificacao","rps.identificacao.cNf","rps.identificacao.competencia","rps.identificacao.dataEmissao","rps.identificacao.descricao","rps.identificacao.descricao[]","rps.identificacao.evento","rps.identificacao.evento.descricaoEvento","rps.identificacao.evento.identificacaoEvento","rps.identificacao.incentivadorCultural","rps.identificacao.indPres","rps.identificacao.naturezaOperacao","rps.identificacao.nfseSubstituida","rps.identificacao.nfseSubstituida.dataEmissao","rps.identificacao.nfseSubstituida.numero","rps.identificacao.numero","rps.identificacao.regimeEspecialTributacao","rps.identificacao.rpsSubstituido","rps.identificacao.rpsSubstituido.dataEmissao","rps.identificacao.rpsSubstituido.numero","rps.identificacao.rpsSubstituido.serie","rps.identificacao.rpsSubstituido.tipoRps","rps.identificacao.sequencia","rps.identificacao.serie","rps.identificacao.seriePrestacao","rps.identificacao.situacao","rps.identificacao.tipoRps","rps.identificacao.tpOperacao","rps.intermediario","rps.intermediario.cnpj","rps.intermediario.contato","rps.intermediario.contato.ddd","rps.intermediario.contato.email","rps.intermediario.contato.fax","rps.intermediario.contato.ramal","rps.intermediario.contato.site","rps.intermediario.contato.telefone","rps.intermediario.endereco","rps.intermediario.endereco.bairro","rps.intermediario.endereco.cep","rps.intermediario.endereco.codigoMunicipio","rps.intermediario.endereco.codigoPais","rps.intermediario.endereco.complemento","rps.intermediario.endereco.cUf","rps.intermediario.endereco.enderecoExterior","rps.intermediario.endereco.logradouro","rps.intermediario.endereco.nomeMunicipio","rps.intermediario.endereco.nomePais","rps.intermediario.endereco.nomeUf","rps.intermediario.endereco.numero","rps.intermediario.endereco.pontoReferencia","rps.intermediario.endereco.siafiMunicipio","rps.intermediario.endereco.tipoLogradouro","rps.intermediario.endereco.tpBairro","rps.intermediario.endereco.uf","rps.intermediario.inscricaoMunicipal","rps.intermediario.razaoSocial","rps.pag","rps.pag.detPag","rps.pag.detPag[]","rps.pag.detPag[].card","rps.pag.detPag[].card.cAut","rps.pag.detPag[].card.cnpj","rps.pag.detPag[].card.tBand","rps.pag.detPag[].card.tpIntegra","rps.pag.detPag[].contraApresentacao","rps.pag.detPag[].indPag","rps.pag.detPag[].parcelas","rps.pag.detPag[].parcelas[]","rps.pag.detPag[].parcelas[].dataVencimento","rps.pag.detPag[].parcelas[].numero","rps.pag.detPag[].parcelas[].valor","rps.pag.detPag[].tPag","rps.pag.detPag[].vPag","rps.pag.valorTroco","rps.pedagio","rps.pedagio.codigoEquipamentoAutomatico","rps.servico","rps.servico.beneficio","rps.servico.beneficio.numero","rps.servico.beneficio.percentual","rps.servico.beneficio.valor","rps.servico.cnae","rps.servico.codigoAtividade","rps.servico.codigoMunicipioIncidencia","rps.servico.codigoNbs","rps.servico.codigoPais","rps.servico.codigoServico","rps.servico.codigoTributacaoMunicipio","rps.servico.comExt","rps.servico.comExt.mdic","rps.servico.comExt.mdPrestacao","rps.servico.comExt.mecAFComexP","rps.servico.comExt.mecAFComexT","rps.servico.comExt.movTempBens","rps.servico.comExt.nDI","rps.servico.comExt.nRE","rps.servico.comExt.tpMoeda","rps.servico.comExt.vincPrest","rps.servico.comExt.vServMoeda","rps.servico.contraApresentacao","rps.servico.dataVencimento","rps.servico.detDeducoes","rps.servico.detDeducoes.lista","rps.servico.detDeducoes.lista[]","rps.servico.detDeducoes.lista[].dadosFornecedor","rps.servico.detDeducoes.lista[].dadosFornecedor.identificacaoFornecedor","rps.servico.detDeducoes.lista[].dadosFornecedor.identificacaoFornecedor.cpfCnpj","rps.servico.detDeducoes.lista[].dadosFornecedor.identificacaoFornecedor.cpfCnpj.cnpj","rps.servico.detDeducoes.lista[].dataEmissao","rps.servico.detDeducoes.lista[].descricao","rps.servico.detDeducoes.lista[].identificadorDocumento","rps.servico.detDeducoes.lista[].identificadorDocumento.nfse","rps.servico.detDeducoes.lista[].identificadorDocumento.nfse.codigoMunicipioGerador","rps.servico.detDeducoes.lista[].identificadorDocumento.nfse.codigoVerificacao","rps.servico.detDeducoes.lista[].identificadorDocumento.nfse.numeroNfse","rps.servico.detDeducoes.lista[].identificadorDocumento.nfse.serie","rps.servico.detDeducoes.lista[].percentualDeduzir","rps.servico.detDeducoes.lista[].por","rps.servico.detDeducoes.lista[].tipo","rps.servico.detDeducoes.lista[].valorDeduzir","rps.servico.detDeducoes.lista[].valorTotRef","rps.servico.detDeducoes.percentual","rps.servico.detDeducoes.tipo","rps.servico.discriminacao","rps.servico.discriminacao[]","rps.servico.endereco","rps.servico.endereco.bairro","rps.servico.endereco.cep","rps.servico.endereco.codigoMunicipio","rps.servico.endereco.codigoPais","rps.servico.endereco.complemento","rps.servico.endereco.cUf","rps.servico.endereco.enderecoExterior","rps.servico.endereco.logradouro","rps.servico.endereco.nomeMunicipio","rps.servico.endereco.nomePais","rps.servico.endereco.nomeUf","rps.servico.endereco.numero","rps.servico.endereco.pontoReferencia","rps.servico.endereco.siafiMunicipio","rps.servico.endereco.tipoLogradouro","rps.servico.endereco.tpBairro","rps.servico.endereco.uf","rps.servico.fatura","rps.servico.fatura.item","rps.servico.fatura.numfatura","rps.servico.fatura.valorfatura","rps.servico.fatura.vencimentofatura","rps.servico.identifNaoExigibilidade","rps.servico.incentivoFiscal","rps.servico.itemListaServico","rps.servico.localServico","rps.servico.numeroProcesso","rps.servico.quantidade","rps.servico.tributavel","rps.servico.unidade","rps.servico.valores","rps.servico.valores.cofins","rps.servico.valores.cofins.aliquota","rps.servico.valores.cofins.baseCalculo","rps.servico.valores.cofins.cst","rps.servico.valores.cofins.percentual","rps.servico.valores.cofins.valor","rps.servico.valores.csll","rps.servico.valores.csll.aliquota","rps.servico.valores.csll.baseCalculo","rps.servico.valores.csll.percentual","rps.servico.valores.csll.valor","rps.servico.valores.desconto","rps.servico.valores.descontoCondicionado","rps.servico.valores.descontoIncondicionado","rps.servico.valores.inss","rps.servico.valores.inss.aliquota","rps.servico.valores.inss.baseCalculo","rps.servico.valores.inss.valor","rps.servico.valores.ir","rps.servico.valores.ir.aliquota","rps.servico.valores.ir.baseCalculo","rps.servico.valores.ir.percentual","rps.servico.valores.ir.valor","rps.servico.valores.iss","rps.servico.valores.iss.aliquota","rps.servico.valores.iss.baseCalculo","rps.servico.valores.iss.exigibilidadeIss","rps.servico.valores.iss.reducao","rps.servico.valores.iss.responsavel","rps.servico.valores.iss.retido","rps.servico.valores.iss.valor","rps.servico.valores.iss.valorReducaoBC","rps.servico.valores.iss.valorRetido","rps.servico.valores.outrasRetencoes","rps.servico.valores.percentualTotalTributosEstadual","rps.servico.valores.percentualTotalTributosFederal","rps.servico.valores.percentualTotalTributosMunicipal","rps.servico.valores.pis","rps.servico.valores.pis.aliquota","rps.servico.valores.pis.baseCalculo","rps.servico.valores.pis.cst","rps.servico.valores.pis.percentual","rps.servico.valores.pis.valor","rps.servico.valores.pisCofins","rps.servico.valores.pisCofins.baseCalculo","rps.servico.valores.pisCofins.retido","rps.servico.valores.totalDeducoes","rps.servico.valores.totalServicos","rps.servico.valores.valorLiquido","rps.servico.valores.valorRepasse","rps.servico.valores.valorTotalTributos","rps.servico.valores.valorTotalTributosEstadual","rps.servico.valores.valorTotalTributosFederal","rps.servico.valores.valorTotalTributosMunicipal","rps.servico.valorUnitario","rps.tomador","rps.tomador.cnpj","rps.tomador.contato","rps.tomador.contato.ddd","rps.tomador.contato.email","rps.tomador.contato.fax","rps.tomador.contato.ramal","rps.tomador.contato.site","rps.tomador.contato.telefone","rps.tomador.docEstrangeiro","rps.tomador.endereco","rps.tomador.endereco.bairro","rps.tomador.endereco.cep","rps.tomador.endereco.codigoMunicipio","rps.tomador.endereco.codigoPais","rps.tomador.endereco.complemento","rps.tomador.endereco.cUf","rps.tomador.endereco.enderecoExterior","rps.tomador.endereco.logradouro","rps.tomador.endereco.nomeMunicipio","rps.tomador.endereco.nomePais","rps.tomador.endereco.nomeUf","rps.tomador.endereco.numero","rps.tomador.endereco.pontoReferencia","rps.tomador.endereco.siafiMunicipio","rps.tomador.endereco.tipoLogradouro","rps.tomador.endereco.tpBairro","rps.tomador.endereco.uf","rps.tomador.extrangeiro","rps.tomador.inscricaoEstadual","rps.tomador.inscricaoMunicipal","rps.tomador.nif","rps.tomador.nomeFantasia","rps.tomador.razaoSocial","rps.tomador.tipo","rps.transporte","rps.transporte.cpfcnpjtransportadora","rps.transporte.enderecotransportadora","rps.transporte.especie","rps.transporte.pesobruto","rps.transporte.pesoliquido","rps.transporte.quantidade","rps.transporte.razaotransportadora","rps.transporte.tipofrete"];
+const st={mode:"structure",q:"",f:{req:false,fb:false,tax:false,cond:false},g:null,sel:null,exp:new Set()};
+const $=(id)=>document.getElementById(id);
+const el={mode:$('modeSwitch'),search:$('search'),fReq:$('fReq'),fFb:$('fFb'),fTax:$('fTax'),fCond:$('fCond'),groups:$('groups'),tbody:$('tbody'),gTitle:$('gTitle'),gCount:$('gCount'),stats:$('stats'),detail:$('detail')};
+const esc=(v)=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#39;");
+const reEsc=(s)=>s.replace(/[.*+?^${}()|[\\]\\]/g,"\\$&");
+const hl=(v)=>{const t=String(v??"");if(!st.q.trim())return esc(t);const safe=esc(t);return safe.replace(new RegExp(`(${reEsc(st.q.trim())})`,`ig`),"<mark>$1</mark>")};
+const gKey=(x)=>st.mode==="structure"?x.gp:x.gf;
+function pass(x){
+  const q=st.q.trim().toLowerCase();
+  if(q){const bag=[x.o,x.s,x.r,x.t,x.gp,x.gf,x.n,x.c,x.ty].join(" ").toLowerCase();if(!bag.includes(q))return false}
+  if(st.f.req&&x.req!=="sim")return false;
+  if(st.f.fb&&!x.hf)return false;
+  if(st.f.tax&&!x.tax)return false;
+  if(st.f.cond&&!x.cond)return false;
+  return true;
+}
+function groups(arr){const m=new Map();arr.forEach(x=>{const k=gKey(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return [...m.entries()].map(([n,it])=>({n,it:it.sort((a,b)=>a.o.localeCompare(b.o))})).sort((a,b)=>a.n.localeCompare(b.n));}
+const pct=(p,t)=>t?Math.round((p/t)*100):0;
+function renderStats(a){const tot=M.length,vis=a.length,map=a.filter(x=>x.ok).length,fb=a.filter(x=>x.hf).length,cond=a.filter(x=>x.cond).length,tax=a.filter(x=>x.tax).length,mp=pct(map,vis||1),fp=pct(fb,vis||1);
+  el.stats.innerHTML=`<article class="sc"><div class="k">Total tags</div><div class="v">${tot}</div></article><article class="sc"><div class="k">Visiveis</div><div class="v">${vis}</div></article><article class="sc"><div class="k">Cobertura</div><div class="v">${mp}%</div><div class="bar"><i style="width:${mp}%"></i></div></article><article class="sc"><div class="k">Fallback</div><div class="v">${fb} (${fp}%)</div><div class="bar"><i style="width:${fp}%"></i></div></article><article class="sc"><div class="k">Cond/Tax</div><div class="v">${cond} / ${tax}</div></article>`;
+}
+function renderGroups(gs){if(!gs.length){el.groups.innerHTML='<div class="empty">Sem resultados com os filtros atuais.</div>';return}if(!st.g||!gs.some(g=>g.n===st.g))st.g=gs[0].n;el.groups.innerHTML=gs.map(g=>`<button class="gbtn ${g.n===st.g?'active':''}" data-g="${esc(g.n)}" type="button"><span>${hl(g.n)}</span><span class="cnt">${g.it.length}</span></button>`).join('')}
+function tClass(t){return({direto:'t-direto',constante:'t-constante',fallback:'t-fallback',condicional:'t-condicional',funcao:'t-funcao',externo:'t-externo'})[t]||'t-funcao'}
+function rClass(r){return r==='sim'?'r-sim':r==='condicional'?'r-condicional':'r-nao'}
+const idh=(s)=>s.replace(/[^a-zA-Z0-9_-]/g,'_');
+function renderTable(gs){const g=gs.find(x=>x.n===st.g);const it=g?g.it:[];el.gTitle.textContent=st.g||'Sem grupo';el.gCount.textContent=`${it.length} tag(s)`;if(!it.length){el.tbody.innerHTML='<tr><td colspan="6"><div class="empty">Nenhuma tag neste grupo.</div></td></tr>';return}
+  el.tbody.innerHTML=it.map(x=>{const ex=st.exp.has(x.id),sel=st.sel===x.id;return `<tr class="row ${sel?'sel':''}" data-id="${esc(x.id)}"><td class="c-tag"><button class="exp" data-exp="${esc(x.id)}" type="button">${ex?'-':'+'}</button><code>${hl(x.o)}</code></td><td class="c-src"><code>${hl(x.s)}</code></td><td class="c-typ"><span class="badge ${tClass(x.ty)}">${hl(x.ty)}</span></td><td class="c-rule">${hl(x.r)}</td><td class="c-req"><span class="badge ${rClass(x.req)}">${hl(x.req)}</span></td><td class="c-act"><button class="copy" data-copy="${esc(x.o)}" type="button">Copiar path</button></td></tr><tr class="det ${ex?'':'hide'}" id="d_${idh(x.id)}"><td colspan="6"><div class="dgrid"><div class="db"><b>Transformacao</b><code>${hl(x.t)}</code></div><div class="db"><b>Fallback / Default</b><div><code>fallback:</code> ${hl(x.fb)}</div><div><code>default:</code> ${hl(x.d)}</div></div><div class="db"><b>Condicoes</b><div>${hl(x.c)}</div></div><div class="db"><b>Pseudo</b><code>${hl(x.p)}</code></div><div class="db"><b>Entrada</b><code>${hl(x.ei)}</code></div><div class="db"><b>Saida</b><code>${hl(x.eo)}</code></div></div></td></tr>`}).join('')
+}
+function renderDetail(){const x=M.find(v=>v.id===st.sel);if(!x){el.detail.className='empty';el.detail.innerHTML='Selecione uma tag para ver origem exata, transformacao, fallback e exemplos.';return}el.detail.className='meta';el.detail.innerHTML=`<div class="line"><b>Tag final</b><code>${esc(x.o)}</code></div><div class="line"><b>Origem exata</b><code>${esc(x.s)}</code></div><div class="line"><b>Grupo</b><div><code>Estrutura:</code> ${esc(x.gp)}</div><div><code>Funcao:</code> ${esc(x.gf)}</div></div><div class="line"><b>Classificacao</b><span class="badge ${tClass(x.ty)}">${esc(x.ty)}</span> <span class="badge ${rClass(x.req)}">${esc(x.req)}</span> <span class="badge ${x.hf?'t-fallback':'t-direto'}">${x.hf?'com fallback':'sem fallback'}</span></div><div class="line"><b>Regra</b><div>${esc(x.r)}</div></div><div class="line"><b>Transformacao</b><pre>${esc(x.t)}</pre></div><div class="line"><b>Fallback / Default</b><div><code>fallback:</code> ${esc(x.fb)}</div><div><code>default:</code> ${esc(x.d)}</div></div><div class="line"><b>Condicoes e notas</b><div><code>condicoes:</code> ${esc(x.c)}</div><div><code>notas:</code> ${esc(x.n)}</div></div><div class="line"><b>Entrada</b><pre>${esc(x.ei)}</pre></div><div class="line"><b>Saida</b><pre>${esc(x.eo)}</pre></div>`}
+function render(){const a=M.filter(pass),gs=groups(a);renderStats(a);renderGroups(gs);renderTable(gs);renderDetail();renderRequestBodyTagsOnState()}
+el.mode.addEventListener('click',e=>{const b=e.target.closest('button[data-mode]');if(!b)return;st.mode=b.dataset.mode;st.g=null;el.mode.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));render()});
+el.search.addEventListener('input',()=>{st.q=el.search.value;st.g=null;render()});
+[['fReq','req'],['fFb','fb'],['fTax','tax'],['fCond','cond']].forEach(([id,k])=>el[id].addEventListener('change',()=>{st.f[k]=el[id].checked;st.g=null;render()}));
+el.groups.addEventListener('click',e=>{const b=e.target.closest('button[data-g]');if(!b)return;st.g=b.dataset.g;render()});
+el.tbody.addEventListener('click',async e=>{const ex=e.target.closest('button[data-exp]');if(ex){const id=ex.dataset.exp;st.exp.has(id)?st.exp.delete(id):st.exp.add(id);render();return}const cp=e.target.closest('button[data-copy]');if(cp){try{await navigator.clipboard.writeText(cp.dataset.copy);cp.textContent='Copiado';setTimeout(()=>cp.textContent='Copiar path',900)}catch{cp.textContent='Falhou';setTimeout(()=>cp.textContent='Copiar path',900)}e.stopPropagation();return}const row=e.target.closest('tr.row');if(!row)return;st.sel=row.dataset.id;renderDetail();el.tbody.querySelectorAll('tr.row').forEach(r=>r.classList.toggle('sel',r.dataset.id===st.sel))});
+const rb={open:$('btnReqBody'),modal:$('rbModal'),close:$('rbClose'),search:$('rbSearch'),status:$('rbStatus'),body:$('rbBody'),info:$('rbInfo')};
+function rbNorm(path){return String(path||'').replace(/\[\]/g,'');}
+function rbCandidates(path){
+  const clean=rbNorm(path);
+  const set=new Set([clean]);
+  if(clean.startsWith('rps.')||clean==='rps') set.add('nfse.'+clean);
+  const top=['emails','branchId','erpId','isForceProductionEnv'];
+  for(const k of top){if(clean===k||clean.startsWith(k+'.')) set.add('nfse.'+clean);}
+  if(clean.startsWith('nfse.')) set.add(clean.slice(5));
+  return [...set];
+}
+function rbFindRef(path){
+  for(const cand of rbCandidates(path)){
+    const hit=M.find(x=>rbNorm(x.o)===cand);
+    if(hit) return hit;
+  }
+  return null;
+}
+function rbStatus(ref){return ref?'<span class="badge r-sim">referenciada</span>':'<span class="badge r-nao">sem referencia</span>';}
+function jumpToRef(ref){
+  if(!ref) return;
+  st.mode='structure';
+  const btn=el.mode.querySelector('button[data-mode="structure"]');
+  if(btn){el.mode.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));}
+  st.g=ref.gp;
+  st.sel=ref.id;
+  st.exp.add(ref.id);
+  render();
+  rb.modal.classList.add('hide');
+}
+function renderRequestBodyTags(){
+  if(!rb.body) return;
+  const q=(rb.search&&rb.search.value?rb.search.value:'').trim().toLowerCase();
+  const sf=(rb.status&&rb.status.value?rb.status.value:'all');
+  let shown=0;
+  let mapped=0;
+  const rows=[];
+  for(const p of RB_PATHS){
+    const ref=rbFindRef(p);
+    if(sf==='ref' && !ref) continue;
+    if(sf==='noref' && ref) continue;
+    if(q && !p.toLowerCase().includes(q)) continue;
+    shown++;
+    if(ref) mapped++;
+    rows.push('<tr>' +
+      '<td><code>'+esc(p)+'</code></td>' +
+      '<td>'+rbStatus(ref)+'</td>' +
+      '<td>'+(ref?'<code>'+esc(ref.o)+'</code>':'-')+'</td>' +
+      '<td>'+(ref?'<code>'+esc(ref.s)+'</code>':'-')+'</td>' +
+      '<td>'+(ref?(esc(ref.gp)+'<br><code>'+esc(ref.gf)+'</code>'):'-')+'</td>' +
+      '<td>'+(ref?'<button class="copy" data-rb-jump="'+esc(ref.id)+'" type="button">Ir na estrutura</button>':'-')+'</td>' +
+    '</tr>');
+  }
+  rb.info.textContent=shown+' tag(s) exibidas | '+mapped+' com referencia';
+  rb.body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="6"><div class="empty">Nenhuma tag encontrada.</div></td></tr>';
+}
+if(rb.open&&rb.modal){
+  rb.open.addEventListener('click',()=>{rb.modal.classList.remove('hide');renderRequestBodyTags();if(rb.search)rb.search.focus();});
+  if(rb.close) rb.close.addEventListener('click',()=>rb.modal.classList.add('hide'));
+  rb.modal.addEventListener('click',e=>{if(e.target.matches('[data-rb-close]')) rb.modal.classList.add('hide');});
+  if(rb.search) rb.search.addEventListener('input',renderRequestBodyTags);
+  if(rb.status) rb.status.addEventListener('change',renderRequestBodyTags);
+  if(rb.body) rb.body.addEventListener('click',e=>{
+    const b=e.target.closest('button[data-rb-jump]');
+    if(!b) return;
+    const ref=M.find(x=>x.id===b.dataset.rbJump);
+    jumpToRef(ref);
+  });
+}
+function renderRequestBodyTagsOnState(){if(rb.modal&&!rb.modal.classList.contains('hide'))renderRequestBodyTags();}
+
+render();
+</script>
+</body>
+</html>
